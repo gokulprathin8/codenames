@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile
+    image: codenames:${CODENAMES_VERSION:-latest}
+    restart: always
+    env_file:
+    - .env
+    labels:
+      # Enables traefik for this container.
+    - traefik.enable=true
+    - traefik.http.routers.codenames.rule=Host(`${CODENAMES_TRAEFIK_HOST:-codenames.localhost}`)
+    - traefik.http.routers.codenames.entrypoints=http
+    - traefik.http.routers.codenames.service=codenames
+    - traefik.http.services.codenames.loadbalancer.server.port=${CODENAMES_PORT:-8000}
+    networks:
+    - default
+    - traefik-shared
+    environment:
+      CODENAMES_HOST: 0.0.0.0
+      CODENAMES_DB_FILE: /db_data/db.sqlite3
+    volumes:
+    - codenames-db-data:/db_data/
+
+  migrator:
+    image: codenames:${CODENAMES_VERSION:-latest}
+    restart: "no"
+    command: alembic upgrade head
+    environment:
+      CODENAMES_DB_FILE: /db_data/db.sqlite3
+    volumes:
+    - codenames-db-data:/db_data/
+
+
+
+volumes:
+  codenames-db-data:
+    name: codenames-db-data
+
+networks:
+  # Network for traefik.
+  traefik-shared:
+    name: traefik-shared
