@@ -1,7 +1,7 @@
 FROM python:3.9.6-slim-buster
 
 
-RUN pip install poetry==1.1.13
+RUN pip install poetry==1.3.2
 
 # Configuring poetry
 RUN poetry config virtualenvs.create false

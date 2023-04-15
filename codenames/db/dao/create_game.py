@@ -1,0 +1,4 @@
+
+
+class GameDAO:
+    pass
