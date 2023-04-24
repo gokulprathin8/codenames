@@ -1,4 +1,3 @@
-import styled from "styled-components"
 import gameRoomStyles from "../styles/gamepage.room.css"
 const GamePage = () => {
     return (
@@ -12,13 +11,13 @@ const GamePage = () => {
             <button className="blue-button">Join as Operative</button>
             <br></br><br></br>
             <button className="blue-button">Join as Spymaster</button>
-        </div>                              
+        </div>
         </div>
     )
 }
 
 export function links() {
     return [{ rel: 'stylesheet', href: gameRoomStyles }]
-}  
+}
 
 export default GamePage;
