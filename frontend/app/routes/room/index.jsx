@@ -8,7 +8,7 @@ const Room = () => {
             <br></br><br></br>
             <input className="text-container" type="text" placeholder="Enter your nickname"/>
             <br></br><br></br>
-            <Link to="/room/gamepage">
+            <Link to="/gamepage">
                 <button className="button-style">Create Room</button>
             </Link>
 
