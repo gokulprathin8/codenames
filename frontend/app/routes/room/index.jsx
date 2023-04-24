@@ -1,6 +1,8 @@
 const Room = () => {
     return (
-        <p>Text</p>
+        <div>
+
+        </div>
     )
 }
 
