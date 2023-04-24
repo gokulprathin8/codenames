@@ -1,0 +1,33 @@
+.container-red {
+    background-color: #FF6969;
+    width: 130px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.container-blue {
+    background-color: #A6D0DD;
+    width: 130px;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.red-button {
+    border-radius: 5px;
+    border: solid black 2px;
+    background: #FFD3B0;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.blue-button {
+    border-radius: 5px;
+    border: solid black 2px;
+    background: #9BA4B5;
+    padding: 12px;
+    cursor: pointer;
+}
+
+body {
+    background: black;
+}
