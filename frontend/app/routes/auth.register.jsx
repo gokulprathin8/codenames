@@ -10,7 +10,6 @@ const UserContent = styled.div`
   margin-left: 30%;
   margin-top: calc(100% - 70%);
   font-family: Roboto,serif;
-  background: url("../../public/images/login-white-abstract.webp") no-repeat scroll left center;
 `;
 
 const CredentialContainer = styled.div`
@@ -85,9 +84,9 @@ export default function AuthLogin() {
 
             <LoginCredContainer>
                 <UserContent>
-                    <h1 style={{ marginBottom: "5px" }}>Log into your account.</h1>
-                    <p style={{ color: "grey", marginTop: 0 }}>Don't have a account?
-                        <Link to="/auth/register" href="#" style={{ textDecoration: "none", color: "var(--g-green)" }}> Register</Link>
+                    <h1 style={{ marginBottom: "5px" }}>Get's Started.</h1>
+                    <p style={{ color: "grey", marginTop: 0 }}>Already have a account?
+                        <Link to="/auth/login" href="app/routes/auth.register#" style={{ textDecoration: "none", color: "var(--g-green)" }}> Login</Link>
                     </p>
 
                     <CredentialContainer>
@@ -109,7 +108,7 @@ export default function AuthLogin() {
                         />
                     </CredentialContainer>
 
-                    <RegisterButton>Login</RegisterButton>
+                    <RegisterButton>Register</RegisterButton>
                 </UserContent>
             </LoginCredContainer>
         </LoginContainer>
