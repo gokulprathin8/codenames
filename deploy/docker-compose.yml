@@ -25,14 +25,14 @@ services:
     volumes:
     - codenames-db-data:/db_data/
 
-  migrator:
-    image: codenames:${CODENAMES_VERSION:-latest}
-    restart: "no"
-    command: alembic upgrade head
-    environment:
-      CODENAMES_DB_FILE: /db_data/db.sqlite3
-    volumes:
-    - codenames-db-data:/db_data/
+#  migrator:
+#    image: codenames:${CODENAMES_VERSION:-latest}
+#    restart: "no"
+#    command: alembic upgrade head
+#    environment:
+#      CODENAMES_DB_FILE: /db_data/db.sqlite3
+#    volumes:
+#    - codenames-db-data:/db_data/
 
 
 
