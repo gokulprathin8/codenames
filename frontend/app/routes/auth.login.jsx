@@ -10,6 +10,7 @@ const UserContent = styled.div`
   margin-left: 30%;
   margin-top: calc(100% - 70%);
   font-family: Roboto,serif;
+  background: url("../../public/images/login-white-abstract.webp") no-repeat scroll left center;
 `;
 
 const CredentialContainer = styled.div`
