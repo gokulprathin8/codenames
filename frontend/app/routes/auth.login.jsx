@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import * as url from "url";
 
 const LoginContainer = styled.div`
   display: flex;
