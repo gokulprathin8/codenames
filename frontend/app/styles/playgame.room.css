@@ -1,124 +1,125 @@
-.cards-container-5-by-5 {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    grid-column-gap: 2px;
-    grid-row-gap: 2px;
-    width: 75%;
-    border-radius: 3px;
-    justify-content: center;
-    padding: 0px;
-    }
-
-    .card {
-        background-color: rgba(229, 229, 229, 0.5);
-        border: 1px solid rgba(128, 128, 128, 0.5);
-        width: 70%;
-        height: 90%;
-        border-radius: 5px;
-        text-align: center;
-    }
-
-    .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding-top: 15%;
-    }
-    
-    .container-red {
-    
-        background-color: #FF6969;
-        width: 130px;
-        padding: 40px;
-        margin-left: 40px;
-        border-radius: 5px;
-        height: 350px;
-    
-        -webkit-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-        -moz-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-        box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-    
-    }
-    
-    .container-game-menu {
-        /*border: 1px solid black;*/
-        max-width: 80%;
-    }
-    
-    .container-blue {
-        background-color: #A6D0DD;
-        width: 130px;
-        padding: 40px;
-        border-radius: 5px;
-        margin-right: 40px;
-    
-        height: 350px;
-    
-        -webkit-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-        -moz-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-        box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75)
-    }
-    
-    .red-button {
-        border-radius: 5px;
-        border: solid black 2px;
-        background: #FFD3B0;
-        padding: 12px;
-        cursor: pointer;
-    }
-    
-    .blue-button {
-        border-radius: 5px;
-        border: solid black 2px;
-        background: #9BA4B5;
-        padding: 12px;
-        cursor: pointer;
-    }
-    
-    body {
-        background: #D38312;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #A83279, #D38312);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #A83279, #D38312); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    }
-    
-    .player-icon {
-        margin: auto;
-        display: block;
-        padding: 10px;
-    }
-    
-    .operative-text {
-        font-weight: 100;
-        text-align: center;
-    }
-    
-    .game-setup-text {
-        background-color: wheat;
-        border-radius: 35px;
-        padding: 5px 40px;
-        text-align: center;
-        width: 300px;
-        margin-left: 100px;
-    }
-    
-    .game-description-container {
-        background-color: wheat;
-        flex: 3;
-        border-radius: 5px;
-        border: 1px dotted white;
-        display: flex;
-        flex-direction: row;
-    }
-    
-    .code-names-image {
-        padding: 20px;
-    }
-    
-    
-    .inner-description {
-        padding: 20px;
-        color: black;
-        width: 350px;
-    }
-    
+.bottom-box {
+    top: 425px;
+    background-color: #A6D0DD;
+    width: 250px;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 5px;
+    height: 275px;
+    text-align: center;
+    float: right;
+    position: absolute;
+  }
+  
+  .cards-container-5-by-5 {
+  display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      grid-column-gap: 2px;
+      grid-row-gap: 2px;
+      width: 1400px;
+      height: 650px;
+      border-radius: 3px;
+      place-items: center;
+  }
+  
+  .card {
+    background-color: beige;
+    border: 1px solid beige;
+    width: 80%;
+    height: 90%;
+    border-radius: 5px;
+    text-align: center;
+    align-self: flex-end;
+    justify-content: end;
+  }
+  
+  .boxes-container {
+    display: inline-flex;
+    justify-content: space-between;
+    padding-top: 65px;
+    height: 350px;
+    width: 100%;
+  }
+  
+  .container-red {
+    background-color: #FF6969;
+    width: 250px;
+    padding: 10px;
+    margin-left: 5px;
+    border-radius: 5px;
+    height: 275px;
+    text-align: center;
+  
+    -webkit-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
+    box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
+  }
+  
+  .container-blue {
+    background-color: #A6D0DD;
+    width: 250px;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 5px;
+    height: 275px;
+    text-align: center;
+    float: right;
+    position: relative;
+  
+    -webkit-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
+    box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75)
+  }
+  
+  .red-button {
+    border-radius: 5px;
+    border: solid black 2px;
+    background: #ffd3b0;
+    padding: 8px;
+    margin: 2px;
+    cursor: pointer;
+  }
+  
+  .blue-button {
+    border-radius: 5px;
+    border: solid black 2px;
+    background: #9ba4b5;
+    padding: 8px;
+    margin: 2px;
+    cursor: pointer;
+  }
+  
+  body {
+    background: #d38312;  
+    background: -webkit-linear-gradient(
+      to right,
+      #a83279,
+      #d38312
+    );  
+    background: linear-gradient(
+      to right,
+      #a83279,
+      #d38312
+    );  
+  }
+  
+  .player-icon {
+    margin: auto;
+    display: block;
+    padding: 10px;
+  }
+  
+  .operative-text {
+    font-weight: 100;
+    text-align: center;
+  }
+  
+  .code-names-image {
+    padding: 20px;
+  }
+  
+  #textclue {
+    border-radius:5px ;
+    padding: 10px;
+  }
