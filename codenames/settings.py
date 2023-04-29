@@ -1,11 +1,8 @@
 import enum
 from pathlib import Path
-from tempfile import gettempdir
 
 from pydantic import BaseSettings
 from yarl import URL
-
-TEMP_DIR = Path(gettempdir())
 
 
 class LogLevel(str, enum.Enum):  # noqa: WPS600
@@ -40,7 +37,7 @@ class Settings(BaseSettings):
     log_level: LogLevel = LogLevel.INFO
 
     # Variables for the database
-    db_file: Path = "./db.sqlite3"
+    db_file: Path = "db.sqlite3"
     db_echo: bool = False
 
     @property
