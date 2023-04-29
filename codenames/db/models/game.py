@@ -17,19 +17,22 @@ class Teams(str, Enum):
     Blue = "Blue"
 
 
-class Player(ormar.Model, metaclass=ormar.ModelMeta):
+class Player(ormar.Model):
     class Meta(BaseMeta):
         tablename = "player"
 
     id: int = ormar.Integer(primary_key=True)
     name: str = ormar.String(max_length=255)
     unique_identifier: str = ormar.String(max_length=1024)
-    active_from: ormar.DateTime(default=datetime.datetime.now)
+    active_from: datetime = ormar.DateTime(default=datetime.datetime.now)
     browser_details: dict = ormar.JSON(default={})
-    player_type: PlayerType = ormar.Enum(PlayerType, default=PlayerType.operative)
+    player_type: PlayerType = ormar.Enum(
+        enum_class=PlayerType,
+        default=PlayerType.operative,
+    )
 
 
-class GameLog(ormar.Model, metaclass=ormar.ModelMeta):
+class GameLog(ormar.Model):
     class Meta(BaseMeta):
         tablename = "player_log"
 
@@ -39,14 +42,18 @@ class GameLog(ormar.Model, metaclass=ormar.ModelMeta):
     spy_master_keyword_count: int = ormar.Integer(default=1)
 
 
-class Game(ormar.Model, metaclass=ormar.ModelMeta):
+class Game(ormar.Model):
     class Meta(BaseMeta):
         tablename = "game"
 
         id: int = ormar.Integer(primary_key=True)
         room_name: str = ormar.String(max_length=255)
         finished: bool = ormar.Boolean(default=False)
-        current_turn: Teams = ormar.Enum(Teams, default=Teams.Blue)
+        current_turn: str = ormar.String(
+            choices=Teams,
+            default=Teams.Blue,
+            max_length=24,
+        )
 
         created_at: ormar.DateTime(default=datetime.datetime.now)
         updated_at: ormar.DateTime(default=datetime.datetime.now)
@@ -60,7 +67,7 @@ class Game(ormar.Model, metaclass=ormar.ModelMeta):
             return await super().save(*args, **kwargs)
 
 
-class GameStats(ormar.Model, metaclass=ormar.ModelMeta):
+class GameStats(ormar.Model):
     class Meta(BaseMeta):
         tablename = "game_stats"
 
