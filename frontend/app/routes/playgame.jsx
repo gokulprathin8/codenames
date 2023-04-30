@@ -5,12 +5,16 @@ import playerTwoImage from "../../public/images/spyware.png";
 const playGame = () => {
   return (
     <div>
-        <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        </head>
-      <div class="boxes-container">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
+      
+      
+      <div class="container">
+
         <div className="leftmost-container">
-        <div className="container-red">
+
+          <div className="container-red">
             <div>
               <img
                 className="player-icon"
@@ -29,36 +33,41 @@ const playGame = () => {
             <br></br>
             <button className="red-button">Join as Spymaster</button>
           </div>
+
+        </div>
+        
+        <div className="center">
+        <div class="cards-container-5-by-5">
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+          <div class="card"></div>
+        </div>
         </div>
 
-          <div class="cards-container-5-by-5">
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-            <div class="card"></div>
-          </div>
-          <div className="rightmost-container">
+        <div className="rightmost-container">
+
           <div className="container-blue">
             <div>
               <img
@@ -80,10 +89,10 @@ const playGame = () => {
           </div>
           <div class="bottom-box">
             <p className="chat-tittle">Game Log</p>
-              <input id="textclue" type="text" placeholder="Enter the clue word"></input>
-              <input id="submitid" type="submit" value="Send"></input>
           </div>
-          </div>
+
+        </div>
+
       </div>
     </div>
   );
