@@ -31,9 +31,10 @@ const playGame = () => {
                 <p>Game Status...</p>
             </div>
 
-            <div class="container">
+            <div className="container">
                 <div className="leftmost-container">
                     <div className="container-red">
+                    <div><p id="redscore">Score</p></div>
                         <div>
                             <img
                                 className="player-icon"
@@ -97,6 +98,7 @@ const playGame = () => {
 
                 <div className="rightmost-container">
                     <div className="container-blue">
+                        <div><p id="bluescore">Score</p></div>
                         <div>
                             <img
                                 className="player-icon"

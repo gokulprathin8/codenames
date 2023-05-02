@@ -1,23 +1,15 @@
-.container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-top: 15%;
-}
+/* new code */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 .container-red {
+    background-color: #df2e38;
+}
 
-    background-color: #FF6969;
-    width: 130px;
-    padding: 40px;
-    margin-left: 40px;
-    border-radius: 5px;
-    height: 350px;
-
-    -webkit-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-    box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-
+.inner-description {
+    padding: 20px;
+    color: black;
+    text-align: justify;
 }
 
 .container-game-menu {
@@ -25,40 +17,90 @@
     max-width: 80%;
 }
 
+.game-setup-text {
+    background-color: wheat;
+    border-radius: 35px;
+    padding: 5px 40px;
+    text-align: center;
+    width: 300px;
+    margin-left: 200px;
+}
+
+.game-description-container {
+    background-color: wheat;
+    flex: 3;
+    border-radius: 5px;
+    border: 1px dotted white;
+    display: flex;
+    margin-top: 3%;
+    flex-direction: row;
+    width: 100%;
+}
+
 .container-blue {
-    background-color: #A6D0DD;
-    width: 130px;
-    padding: 40px;
-    border-radius: 5px;
-    margin-right: 40px;
-
-    height: 350px;
-
-    -webkit-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75);
-    box-shadow: -2px 6px 43px 0px rgba(0,0,0,0.75)
+    background-color: #3284a3;
 }
 
-.red-button {
-    border-radius: 5px;
-    border: solid black 2px;
-    background: #FFD3B0;
-    padding: 12px;
-    cursor: pointer;
+.card {
+    background-color: beige;
+    border: 2px solid white;
+    width: 98%;
+    height: 98%;
+    border-radius: 3%;
+    text-align: center;
+    align-self: flex-end;
+    justify-content: end;
+
+    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
 }
 
-.blue-button {
-    border-radius: 5px;
-    border: solid black 2px;
-    background: #9BA4B5;
-    padding: 12px;
-    cursor: pointer;
+.bottom-box {
+    margin-top: 10%;
+    background-color: #d8e9f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    height: 33%;
+    border-radius: 3%;
+    padding: 10px;
+
+    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
 }
 
 body {
-    background: #D38312;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #A83279, #D38312);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #A83279, #D38312); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    font-family: "Poppins", sans-serif;
+    background: rgb(84, 146, 122);
+    background: radial-gradient(
+        circle,
+        rgba(84, 146, 122, 1) 0%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    font-size: 15px;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    color: #000000;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    margin-top: 1%;
+    overflow: hidden;
+}
+
+#bluescore {
+    font-size: 25px;
+    color: #E9F8F9;
+}
+
+#redscore {
+    color: #FFACAC;
+    font-size: 25px;
 }
 
 .player-icon {
@@ -72,31 +114,172 @@ body {
     text-align: center;
 }
 
-.game-setup-text {
-    background-color: wheat;
-    border-radius: 35px;
-    padding: 5px 40px;
-    text-align: center;
-    width: 300px;
-    margin-left: 100px;
-}
-
-.game-description-container {
-    background-color: wheat;
-    flex: 3;
-    border-radius: 5px;
-    border: 1px dotted white;
-    display: flex;
-    flex-direction: row;
-}
-
 .code-names-image {
     padding: 20px;
 }
 
-
-.inner-description {
-    padding: 20px;
-    color: black;
-    width: 350px;
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 3% 1% 0% 1%;
 }
+.leftmost-container,
+.rightmost-container {
+    width: 20%;
+    height: 100vh;
+}
+
+.rightmost-container {
+    overflow: hidden;
+}
+
+.center {
+    width: 80%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.cards-container-5-by-5 {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 8px;
+    padding: 10px;
+    place-items: center;
+    width: 85%;
+    height: 70%;
+}
+
+.container-blue,
+.container-red {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 32%;
+    border-radius: 3%;
+    padding: 10px;
+
+    -webkit-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+    -moz-box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 1);
+}
+
+.blue-button,
+.red-button {
+    padding: 4%;
+    border-radius: 6%;
+    color: #000000;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+}
+
+.red-button {
+    background-image: linear-gradient(to right, #ffd93d 0%, #ffd93d 51%, #d31027 100%);
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    display: block;
+}
+
+.red-button:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.blue-button {
+    background-image: linear-gradient(to right, #ffd93d 0%, #ffd93d 51%, #1fa2ff 100%);
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    display: block;
+}
+
+.blue-button:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-top {
+    padding: 0.5%;
+    border-radius: 6%;
+    color: #000000;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    margin: 0% 1% 0% 1%;
+    text-align: center;
+    background-image: linear-gradient(to right, #ffd93d 0%, #ffd93d 51%, #e63870 100%);
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+}
+
+.btn-top:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+#top-left-btns {
+    float: right;
+}
+
+.below-top-container {
+    text-align: center;
+    width: 55%;
+    background-color: #ffd93d;
+    margin: 1% 1% 0% 22%;
+    border-radius: 5px;
+    padding: 0.3%;
+}
+
+.below-container {
+    text-align: center;
+    width: 55%;
+    height: 3.5%;
+    border-radius: 5px;
+    padding: 0.5%;
+}
+
+#text-input {
+    width: 70%;
+    height: 100%;
+    padding: 1%;
+    margin: 1%;
+    border-radius: 5px;
+    border: none;
+    float: left;
+}
+
+.btn-below {
+    padding: 1.9%;
+    border-radius: 6%;
+    color: #000000;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    margin: 1%;
+    text-align: center;
+    background-image: linear-gradient(to right, #ffd93d 0%, #ffd93d 51%, #e63870 100%);
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+}
+
+.btn-below:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+

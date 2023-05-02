@@ -75,6 +75,16 @@ body {
     padding: 20px;
 }
 
+#bluescore {
+    font-size: 25px;
+    color: #E9F8F9;
+}
+
+#redscore {
+    color: #FFACAC;
+    font-size: 25px;
+}
+
 .container {
     display: flex;
     justify-content: space-between;
