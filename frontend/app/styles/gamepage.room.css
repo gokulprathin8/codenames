@@ -1,40 +1,7 @@
-/* new code */
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 .container-red {
     background-color: #df2e38;
-}
-
-.inner-description {
-    padding: 20px;
-    color: black;
-    text-align: justify;
-}
-
-.container-game-menu {
-    /*border: 1px solid black;*/
-    max-width: 80%;
-}
-
-.game-setup-text {
-    background-color: wheat;
-    border-radius: 35px;
-    padding: 5px 40px;
-    text-align: center;
-    width: 300px;
-    margin-left: 200px;
-}
-
-.game-description-container {
-    background-color: wheat;
-    flex: 3;
-    border-radius: 5px;
-    border: 1px dotted white;
-    display: flex;
-    margin-top: 3%;
-    flex-direction: row;
-    width: 100%;
 }
 
 .container-blue {
@@ -93,16 +60,6 @@ body {
     overflow: hidden;
 }
 
-#bluescore {
-    font-size: 25px;
-    color: #E9F8F9;
-}
-
-#redscore {
-    color: #FFACAC;
-    font-size: 25px;
-}
-
 .player-icon {
     margin: auto;
     display: block;
@@ -118,11 +75,21 @@ body {
     padding: 20px;
 }
 
+#bluescore {
+    font-size: 25px;
+    color: #E9F8F9;
+}
+
+#redscore {
+    color: #FFACAC;
+    font-size: 25px;
+}
+
 .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 3% 1% 0% 1%;
+    margin: 1.5% 1% 0% 1%;
 }
 .leftmost-container,
 .rightmost-container {
@@ -141,7 +108,6 @@ body {
     flex-direction: column;
     justify-content: top;
     align-items: center;
-    margin-top: 5%;
 }
 
 .cards-container-5-by-5 {
@@ -237,9 +203,9 @@ body {
 
 .below-top-container {
     text-align: center;
-    width: 55%;
+    width: 54%;
     background-color: #ffd93d;
-    margin: 1% 1% 0% 22%;
+    margin: 1% 1% 0% 22.5%;
     border-radius: 5px;
     padding: 0.3%;
 }
@@ -281,5 +247,225 @@ body {
     background-position: right center; /* change the direction of the change here */
     color: #fff;
     text-decoration: none;
+}
+
+.playdiv {
+    background-color: white;
+    width: 18%;
+    border-radius: 4px;
+    height: 15%;
+    padding: 1%;
+    margin-top: 0.15%;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 1%;
+    position: absolute;
+}
+
+.linkToShow {
+    background-color: #E9F8F9;
+    border-radius: 4px;
+    border: 1px solid black;
+    width: 90%;
+    padding: 2%;
+    margin-left: 3%;
+    text-align: center;
+    place-items: center;
+}
+
+.btn-popups {
+    padding: 1.5%;
+    border-radius: 4px;
+    color: #000000;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    margin: 0% 1% 0% 1%;
+    text-align: center;
+    background-image: linear-gradient(to right, #ffd93d 0%, #ffd93d 51%, #e63870 100%);
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+}
+
+.btn-popups:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+/* .tmrdiv {
+    background-color: white;
+    width: 18%;
+    border-radius: 4px;
+    height: 15%;
+    padding: 1%;
+    margin-top: 0.15%;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 5%;
+    position: absolute;
+} */
+
+.rstdiv {
+    background-color: white;
+    width: 18%;
+    border-radius: 4px;
+    height: 15%;
+    padding: 1%;
+    margin-top: 0.15%;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 70%;
+    position: absolute;
+}
+
+.rulesdiv {
+    place-items: center;
+    background-color: white;
+    width: 40%;
+    border-radius: 4px;
+    height: 85%;
+    padding: 1%;
+    margin-top: 0.20%;
+    font-size: 12px;
+    margin-left: 27%;
+    position: absolute;
+    padding: 2%;
+    overflow:scroll;
+}
+
+#warning-text {
+    color: red;
+}
+
+#rulesheading {
+    text-align: center;
+    padding: 1%;
+}
+
+.rule-text {
+    margin: 0.5%;
+    text-align: justify;
+    font: 11px;
+}
+
+.rules-title {
+    padding: 0.5%;
+    text-align: center;
+    background-color: #ffd93d;
+    border-radius: 4px;
+}
+
+#close-rules {
+    margin-left: 42%;
+}
+
+.pnamediv {
+    background-color: white;
+    width: 18%;
+    border-radius: 4px;
+    height: 25%;
+    padding: 1%;
+    margin-top: 0.15%;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 79.1%;
+    position: absolute;
+}
+
+
+#nicknameform{
+    border-radius: 4px;
+    border: 1px solid black;
+    width: 90%;
+    padding: 2%;
+    margin-left: 3%;
+    text-align: center;
+    place-items: center;
+    margin-bottom: 2%;
+}
+
+.changetm {
+    padding: 5%;
+    border-bottom: 1px solid black;
+}
+
+.sep-border {
+    padding: 5%;
+    border-bottom: 1px solid black;
+}
+
+#leave-btn {
+    margin-top: 5% ;
+}
+
+.cluediv {
+    display: flex; 
+    position: absolute;
+    width: 13.5%;
+    background-color: #ffd93d;
+    border-radius: 4px;
+    place-items: center;
+    margin-left: 22%;
+}
+
+.clue-btn {
+    text-align: center;
+    padding: 2.5%;
+    border-radius: 6%;
+    color: #000000;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    margin: 1%;
+    width: 10%;
+    text-align: center;
+    background-image: linear-gradient(to right, #ffd93d 0%, #ffd93d 51%, #e63870 100%);
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    border-right: 1px solid black;
+}
+
+.clue-btn:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+}
+
+.inner-description {
+    padding: 20px;
+    color: black;
+    text-align: justify;
+}
+
+.container-game-menu {
+    /*border: 1px solid black;*/
+    max-width: 80%;
+}
+
+.game-setup-text {
+    background-color: wheat;
+    border-radius: 35px;
+    padding: 5px 40px;
+    text-align: center;
+    width: 300px;
+    margin-left: 200px;
+}
+
+.game-description-container {
+    background-color: wheat;
+    flex: 3;
+    border-radius: 5px;
+    border: 1px dotted white;
+    display: flex;
+    margin-top: 3%;
+    flex-direction: row;
+    width: 100%;
+}
+
+.code-names-image {
+    padding: 20px;
 }
 
