@@ -53,7 +53,7 @@ class Settings(BaseSettings):
         """
         print(URL.build(
             scheme="sqlite",
-            path=f"///./{self.db_file}",
+            path=f"///{self.db_file}",
         ))
         return URL.build(
             scheme="sqlite",
