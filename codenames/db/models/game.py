@@ -46,25 +46,25 @@ class Game(ormar.Model):
     class Meta(BaseMeta):
         tablename = "game"
 
-        id: int = ormar.Integer(primary_key=True)
-        room_name: str = ormar.String(max_length=255)
-        finished: bool = ormar.Boolean(default=False)
-        current_turn: str = ormar.String(
-            choices=Teams,
-            default=Teams.Blue,
-            max_length=24,
-        )
+    id: int = ormar.Integer(primary_key=True)
+    room_name: str = ormar.String(max_length=255)
+    finished: bool = ormar.Boolean(default=False)
+    current_turn: str = ormar.String(
+        choices=Teams,
+        default=Teams.Blue,
+        max_length=24,
+    )
 
-        created_at: ormar.DateTime(default=datetime.datetime.now)
-        updated_at: ormar.DateTime(default=datetime.datetime.now)
+    created_at: datetime = ormar.DateTime(default=datetime.datetime.now)
+    updated_at: datetime = ormar.DateTime(default=datetime.datetime.now)
 
-        players: Optional[Union[Player, None]] = ormar.ForeignKey(Player)
+    players: Optional[Union[Player, None]] = ormar.ForeignKey(Player)
 
-        async def save(self, *args, **kwargs):
-            self.updated_at = datetime.datetime.now()
-            if not self.id:
-                self.created_at = datetime.datetime.now()
-            return await super().save(*args, **kwargs)
+    async def save(self, *args, **kwargs):
+        self.updated_at = datetime.datetime.now()
+        if not self.id:
+            self.created_at = datetime.datetime.now()
+        return await super().save(*args, **kwargs)
 
 
 class GameStats(ormar.Model):
