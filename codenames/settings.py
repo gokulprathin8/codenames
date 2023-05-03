@@ -57,7 +57,7 @@ class Settings(BaseSettings):
         ))
         return URL.build(
             scheme="sqlite",
-            path=f"///./{self.db_file}",
+            path=f"///{self.db_file}",
         )
 
     class Config:

@@ -16,6 +16,9 @@ router = APIRouter()
 @router.post("/users/create")
 async def create_user(user_creds: UserCredentials):
     hashed_password = auth.get_password_hash(user_creds.password)
+    if await User.objects.get_or_none(username=user_creds.email):
+        raise HTTPException(detail="User already exists",
+                            status_code=status.HTTP_403_FORBIDDEN)
     user = await User.objects.create(username=user_creds.email,
                                      password=hashed_password)
     return {"id": user.id, "username": user_creds.email}
