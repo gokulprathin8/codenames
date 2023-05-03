@@ -8,16 +8,17 @@ from ..utils import auth
 from codenames.db.models.user import User
 from ..utils.auth import (verify_password, create_access_token, oauth2_scheme,
                           decode_access_token)
+from ..utils.base_types import UserCredentials
 
 router = APIRouter()
 
 
 @router.post("/users/create")
-async def create_user(username: str, password: str):
-    hashed_password = auth.get_password_hash(password)
-    user = await User.objects.create(username=username,
+async def create_user(user_creds: UserCredentials):
+    hashed_password = auth.get_password_hash(user_creds.password)
+    user = await User.objects.create(username=user_creds.email,
                                      password=hashed_password)
-    return {"id": user.id, "usernamne": username}
+    return {"id": user.id, "username": user_creds.email}
 
 
 @router.post("/token")

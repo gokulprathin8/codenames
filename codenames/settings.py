@@ -44,7 +44,6 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30 * 30
 
-
     @property
     def db_url(self) -> URL:
         """
@@ -52,9 +51,13 @@ class Settings(BaseSettings):
 
         :return: database URL.
         """
+        print(URL.build(
+            scheme="sqlite",
+            path=f"///./{self.db_file}",
+        ))
         return URL.build(
             scheme="sqlite",
-            path=f"///{self.db_file}",
+            path=f"///./{self.db_file}",
         )
 
     class Config:
