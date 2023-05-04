@@ -13,6 +13,15 @@ export async function authenticateUser(username, password) {
     return await token.json();
 }
 
+export async function registerUser(username, password) {
+    const user = await fetch(`${SERVER_URL}auth/users/create`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({email: username, password})
+    });
+    return await user.json();
+}
+
 const authStore = (set) => ({
     jwtToken: 'value-1',
     setJWT: (token) => set({jwtToken: token}),

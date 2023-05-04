@@ -1,5 +1,8 @@
 import styled from "@emotion/styled";
 import {Link} from "@remix-run/react";
+import {useForm} from "react-hook-form";
+import {registerUser} from "../store/auth";
+import {useState} from "react";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -76,6 +79,21 @@ const LoginCredContainer = styled.div`
 `;
 
 export default function AuthLogin() {
+
+    const [user, setUser] = useState({});
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    async function handleFormSubmit(data) {
+        const registrationResp = await registerUser(data.email, data.password);
+        console.log(registrationResp);
+        setUser(registrationResp);
+    }
+
     return (
         <LoginContainer>
             <LoginContainerPattern>
@@ -89,26 +107,38 @@ export default function AuthLogin() {
                         <Link to="/auth/login" href="app/routes/auth.register#" style={{ textDecoration: "none", color: "var(--g-green)" }}> Login</Link>
                     </p>
 
-                    <CredentialContainer>
-                        <p style={{ color: "var(--g-silver)" }}>Email address</p>
-                        <UserEmailInput
-                            type="email"
-                            id="user-email"
-                            required={true}
-                            minLength={5}
-                        />
+                    <form onSubmit={handleSubmit(handleFormSubmit)}>
+                        <CredentialContainer>
+                            <p style={{ color: "var(--g-silver)" }}>Email address</p>
+                            <UserEmailInput
+                                type="email"
+                                id="user-email"
+                                {...register("email", { required: true, minLength: 5 })}
+                            />
+
+                            {errors.email && <p>This field is required and must be at least 5 characters.</p>}
 
 
-                        <p style={{ color: "var(--g-silver)", marginTop: "15px" }}>Password</p>
-                        <UserPasswordInput
-                            type="password"
-                            id="user-password"
-                            required={true}
-                            minLength={5}
-                        />
-                    </CredentialContainer>
+                            <p style={{ color: "var(--g-silver)", marginTop: "15px" }}>Password</p>
+                            <UserPasswordInput
+                                type="password"
+                                id="user-password"
+                                {...register("password", { required: true, minLength: 5 })}
+                            />
+                            {errors.password && <p>This field is required and must be at least 5 characters.</p>}
+                        </CredentialContainer>
 
-                    <RegisterButton>Register</RegisterButton>
+                        {user.detail === "User already exists" ?
+                            <p style={{ background: 'red', width: 'fit-content', marginTop: '20px', padding: '5px', marginLeft: '55px', borderRadius: '5px', color: 'white' }}>
+                                User Already Exists
+                            </p> : null
+                        }
+
+
+                        <RegisterButton type="submit">Register</RegisterButton>
+                    </form>
+
+
                 </UserContent>
             </LoginCredContainer>
         </LoginContainer>
