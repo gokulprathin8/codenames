@@ -10,3 +10,8 @@ async def get_all_rooms():
     queryset = Game.objects.filter(finished=False)
     rooms = await queryset.values_list('room_name', flatten=True)
     return list(rooms)
+
+
+@router.post("/create")
+async def create_game_room():
+    game_room = Game.objects.create()
