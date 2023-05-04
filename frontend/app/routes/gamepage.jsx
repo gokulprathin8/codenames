@@ -295,7 +295,7 @@ const GamePage = () => {
                         <br></br>
                         <button className="blue-button">Join as Spymaster</button>
                     </div>
-                    <div class="bottom-box">
+                    <div className="bottom-box">
                         <p className="chat-tittle">Game Log</p>
                     </div>
                 </div>
