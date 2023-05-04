@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import {Link} from "@remix-run/react";
-import authStore from "../store/auth";
 import {useForm} from "react-hook-form";
+import useAuthStore, {authenticateUser} from "../store/auth";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -80,14 +80,18 @@ const LoginCredContainer = styled.div`
 
 export default function AuthLogin() {
 
+    const setJWT = useAuthStore((state) => state.setJWT);
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
 
-    function handleFormSubmit(e) {
-        // console.log(jwtToken);
+    async function handleFormSubmit(e) {
+        const userToken = await authenticateUser(e.email, e.password);
+        console.log(userToken);
+        setJWT(userToken);
     }
 
     return (
@@ -126,8 +130,6 @@ export default function AuthLogin() {
 
                         <RegisterButton type="submit">Login</RegisterButton>
                     </form>
-
-                    {}
 
                 </UserContent>
             </LoginCredContainer>

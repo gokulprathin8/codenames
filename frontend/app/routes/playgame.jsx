@@ -1,6 +1,6 @@
+import React, { useState } from "react";
 import playGameStyles from "../styles/playgame.room.css";
 import playerImage from "../../public/images/spyware.png";
-import { useState } from "react";
 
 const playGame = () => {
     const [play, setPlay] = useState(false);
@@ -288,9 +288,9 @@ const playGame = () => {
                             <button className="clue-btn">4</button>
                             <button className="clue-btn">5</button>
                             <button className="clue-btn">6</button>
-                            <button className="clue-btn">7</button> 
+                            <button className="clue-btn">7</button>
                             <button className="clue-btn">8</button>
-                            <button className="clue-btn">9</button>                   
+                            <button className="clue-btn">9</button>
                         </div>
                     )}
                         <button className="btn-below">Give Clue</button>
