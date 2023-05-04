@@ -53,11 +53,11 @@ class Game(ormar.Model):
 
 
 class Cards(ormar.Model):
-    class Meta:
+    class Meta(BaseMeta):
         tablename = "cards"
 
     id: int = ormar.Integer(primary_key=True)
-    room_name: int = ormar.ForeignKey(Game)
+    room_name: int = ormar.ForeignKey(Game, related_name="game_cards")
     color: str = ormar.String(
         choices=Teams,
         max_length=24
@@ -67,11 +67,11 @@ class Cards(ormar.Model):
 
 
 class Player(ormar.Model):
-    class Meta:
+    class Meta(BaseMeta):
         tablename = "player_type"
 
     id: int = ormar.Integer(primary_key=True)
-    room: int = ormar.ForeignKey(Room)
+    room: int = ormar.ForeignKey(Room, related_name="player_room")
     spymaster: bool = ormar.Boolean(default=False)
     operative: bool = ormar.Boolean(default=False)
     team_color: str = ormar.String(
