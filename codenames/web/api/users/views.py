@@ -26,7 +26,7 @@ async def create_user(user_creds: UserCredentials):
 
 @router.post("/token")
 async def access_token(form_data: OAuth2PasswordRequestForm = Depends()):
-    user = await User.objects.get(username=form_data.username)
+    user = await User.objects.get_or_none(username=form_data.username)
     if not user or not verify_password(form_data.password, user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

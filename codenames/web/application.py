@@ -2,6 +2,7 @@ from importlib import metadata
 
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
+from starlette.middleware.cors import CORSMiddleware
 
 from codenames.logging import configure_logging
 from codenames.web.api.router import api_router
@@ -25,6 +26,20 @@ def get_app() -> FastAPI:
         redoc_url="/api/redoc",
         openapi_url="/api/openapi.json",
         default_response_class=UJSONResponse,
+    )
+
+    origins = [
+        "http://localhost",
+        "http://localhost:8080",
+        "*"
+    ]
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     # Adds startup and shutdown events.

@@ -86,9 +86,6 @@ export default function AuthLogin() {
         formState: { errors },
     } = useForm();
 
-    const jwtToken = authStore((state) => state.jwtToken);
-    // const setJwtToken = authStore((state) => state.set)
-
     function handleFormSubmit(e) {
         // console.log(jwtToken);
     }
