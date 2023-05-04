@@ -23,7 +23,7 @@ export async function registerUser(username, password) {
 }
 
 const authStore = (set) => ({
-    jwtToken: 'value-1',
+    jwtToken: null,
     setJWT: (token) => set({jwtToken: token}),
 });
 

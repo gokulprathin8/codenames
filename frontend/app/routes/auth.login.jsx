@@ -90,7 +90,6 @@ export default function AuthLogin() {
 
     async function handleFormSubmit(e) {
         const userToken = await authenticateUser(e.email, e.password);
-        console.log(userToken);
         setJWT(userToken);
     }
 
