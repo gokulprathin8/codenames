@@ -281,18 +281,18 @@ const playGame = () => {
                             <p>-</p>
                         </button>
                         {clue && (
-                        <div className="cluediv">
-                            <button className="clue-btn">1</button>
-                            <button className="clue-btn">2</button>
-                            <button className="clue-btn">3</button>
-                            <button className="clue-btn">4</button>
-                            <button className="clue-btn">5</button>
-                            <button className="clue-btn">6</button>
-                            <button className="clue-btn">7</button>
-                            <button className="clue-btn">8</button>
-                            <button className="clue-btn">9</button>
-                        </div>
-                    )}
+                            <div className="cluediv">
+                                <button className="clue-btn">1</button>
+                                <button className="clue-btn">2</button>
+                                <button className="clue-btn">3</button>
+                                <button className="clue-btn">4</button>
+                                <button className="clue-btn">5</button>
+                                <button className="clue-btn">6</button>
+                                <button className="clue-btn">7</button>
+                                <button className="clue-btn">8</button>
+                                <button className="clue-btn">9</button>
+                            </div>
+                        )}
                         <button className="btn-below">Give Clue</button>
                     </div>
                 </div>
