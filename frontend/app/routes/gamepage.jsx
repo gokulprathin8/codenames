@@ -270,6 +270,90 @@ const GamePage = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="setup-content">
+                        <div className="game-rooms-div">
+                            <div className="rooms">
+                                <div className="rooms-tittle">Game Rooms</div>
+                                <div className="rooms-scroll">
+                                    <div className="room-tab">
+                                        <div className="room-tab-image">
+                                            <img
+                                                src={playerImage}
+                                                width={40}
+                                                height={40}
+                                                alt="player image"
+                                            />
+                                        </div>
+                                        <div className="room-tab-text">
+                                            Gokul's game room
+                                        </div>
+                                    </div>
+                                    <div className="room-tab">
+                                        <div className="room-tab-image">
+                                            <img
+                                                src={playerImage}
+                                                width={40}
+                                                height={40}
+                                                alt="player image"
+                                            />
+                                        </div>
+                                        <div className="room-tab-text">
+                                            Gokul's game room
+                                        </div>
+                                    </div>
+                                    <div className="room-tab">
+                                        <div className="room-tab-image">
+                                            <img
+                                                src={playerImage}
+                                                width={40}
+                                                height={40}
+                                                alt="player image"
+                                            />
+                                        </div>
+                                        <div className="room-tab-text">
+                                            Gokul's game room
+                                        </div>
+                                    </div>
+                                    <div className="room-tab">
+                                        <div className="room-tab-image">
+                                            <img
+                                                src={playerImage}
+                                                width={40}
+                                                height={40}
+                                                alt="player image"
+                                            />
+                                        </div>
+                                        <div className="room-tab-text">
+                                            Gokul's game room
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="new-room-div">
+                            <div className="create-new-room">
+                                <div className="new-room-input">
+                                    <input
+                                        type="text"
+                                        placeholder=">>Enter Room Name"
+                                        id="text-input-room"
+                                    />
+                                    <button className="btn-room-create">Create</button>
+                                </div>
+                            </div>
+                            <div className="team">
+                                <div className="team-tittle">
+                                    <div className="team-members">
+                                        <div className="our-team">
+                                            <p id="tittle-team">Our Team</p>
+                                        </div>
+                                        <p>Gokul Prathin Asmani (G01397737)</p>
+                                        <p>Sripath Cherukuri (G01395231)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="rightmost-container">
@@ -305,7 +389,7 @@ const GamePage = () => {
 };
 
 export function links() {
-    return [{ rel: "stylesheet", href: gameRoomStyles}];
+    return [{ rel: "stylesheet", href: gameRoomStyles }];
 }
 
 export default GamePage;
