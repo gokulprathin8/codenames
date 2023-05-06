@@ -1,15 +1,136 @@
-import gameRoomStyles from "../styles/gamepage.room.css";
+import React, { useState } from "react";
+import gameStyles from "../styles/gamepage.room.css";
 import playerImage from "../../public/images/spyware.png";
+import Popup from "reactjs-popup";
 import codenamesCover from "../../public/images/codenames-cover.jpg";
-import { useState } from "react";
 
-const GamePage = () => {
-    const [play, setPlay] = useState(false);
-    // const [tmr, setTmr] = useState(false);
-    const [rst, setRst] = useState(false);
+const playGame = () => {
     const [rules, setRules] = useState(false);
-    const [pname, setPname] = useState(false);
-    const [clue, setClue] = useState(false);
+    const [value, setValue] = useState("");
+
+    /**
+     * ! install react-js popup to run
+     * ! the below code is to show a tooltip when players button is clicked
+     */
+    const Playerstip = () => (
+        <Popup
+            trigger={(open) => <button className="btn-top">Players -</button>}
+            position="bottom center"
+            closeOnDocumentClick
+        >
+            <div className="playdiv-popup-content">
+                <p>Send this link to your friends to invite them to this room:</p>
+                <br></br>
+                <div className="link">
+                    <p>link to show</p>
+                </div>
+                <br></br>
+                <button className="btn-popups">Copy To Clipboard</button>
+            </div>
+        </Popup>
+    );
+
+    /**
+     * ! the below code is to show a tooltip when player name button is clicked
+     */
+    const Playernametip = () => (
+        <Popup
+            trigger={(open) => (
+                <button className="btn-top" id="top-left-btns">
+                    Player Name
+                </button>
+            )}
+            position="bottom center"
+            closeOnDocumentClick
+        >
+            <div className="pnamediv-popup-content">
+                <div className="sep-border">
+                    <br></br>
+                    <p>Nickname:</p>
+                    <div className="nickname">
+                        <input
+                            type="text"
+                            name="name"
+                            id="nicknameform"
+                            placeholder="Display Player Name"
+                        />
+                    </div>
+                    <button className="btn-popups">Update Your Nickname</button>
+                </div>
+                <button id="leave-btn" className="btn-popups">
+                    Leave The Room
+                </button>
+            </div>
+        </Popup>
+    );
+
+    /**
+     * ! the below code is to show a tooltip when reset button is clicked
+     */
+    const Resettip = () => (
+        <Popup
+            trigger={(open) => (
+                <button className="btn-top" id="top-left-btns">
+                    Reset
+                </button>
+            )}
+            position="bottom center"
+            closeOnDocumentClick
+        >
+            <div className="rstdiv-popup-content">
+                <div>
+                    <p>This will reset the game for the current table</p>
+                    <br></br>
+                    <p id="warning-text">
+                        Warning!this will reset the current running game!
+                    </p>
+                    <br></br>
+                    <button className="btn-popups">Reset Game</button>
+                </div>
+            </div>
+        </Popup>
+    );
+
+    /**
+     * ! the below code is to show a tooltip when clue button is clicked
+     */
+    const Cluetip = () => (
+        <Popup
+            trigger={(open) => <button className="btn-below">Clue No:{value}</button>}
+            position="bottom center"
+            closeOnDocumentClick
+        >
+            <div className="cluediv-popup-content">
+                <button className="clue-btn" onClick={handleClick}>
+                    1
+                </button>
+                <button className="clue-btn" onClick={handleClick}>
+                    2
+                </button>
+                <button className="clue-btn" onClick={handleClick}>
+                    3
+                </button>
+                <button className="clue-btn" onClick={handleClick}>
+                    4
+                </button>
+                <button className="clue-btn" onClick={handleClick}>
+                    5
+                </button>
+                <button className="clue-btn" onClick={handleClick}>
+                    6
+                </button>
+                <button className="clue-btn" onClick={handleClick}>
+                    7
+                </button>
+                <button className="clue-btn" onClick={handleClick}>
+                    8
+                </button>
+                <button className="clue-btn" onClick={handleClick}>
+                    9
+                </button>
+            </div>
+        </Popup>
+    );
 
     return (
         <div>
@@ -18,69 +139,8 @@ const GamePage = () => {
             </head>
 
             <div className="top-container">
-                <button className="btn-top" onClick={() => setPlay(!play)}>
-                    <p>Players -</p>
-                </button>
-                {play && (
-                    <div className="playdiv">
-                        <div>
-                            <p>
-                                Send this link to your friends to invite them to this
-                                room:
-                            </p>
-                            <br></br>
-                            <div className="linkToShow">
-                                <p>link to show</p>
-                            </div>
-                            <br></br>
-                            <button className="btn-popups">Copy To Clipboard</button>
-                        </div>
-                    </div>
-                )}
-                {/*<button className="btn-top" onClick={() =>setTmr(!tmr)}>
-                    <p>Timer</p>
-                </button>
-                /*{tmr && <div className="tmrdiv">
-                    <div>
-                        <p>Send this link to your friends to invite them to this room:</p>
-                        <br></br>
-                        <div className="linkToShow"><p>link to show</p></div>
-                        <br></br>
-                        <button className="btn-popups">Copy To Clipboard</button>
-                    </div>
-    </div> }*/}
-                <button
-                    className="btn-top"
-                    id="top-left-btns"
-                    onClick={() => setPname(!pname)}
-                >
-                    <p>Player Name</p>
-                </button>
-                {pname && (
-                    <div className="pnamediv">
-                        <div className="sep-border">
-                            <div className="changetm">
-                                <button className="btn-popups">
-                                    Change to Red/Blue team
-                                </button>
-                            </div>
-                            <br></br>
-                            <p>Nickname:</p>
-                            <div className="nickname">
-                                <input
-                                    type="text"
-                                    name="name"
-                                    id="nicknameform"
-                                    placeholder="Display Player Name"
-                                />
-                            </div>
-                            <button className="btn-popups">Update Your Nickname</button>
-                        </div>
-                        <button id="leave-btn" className="btn-popups">
-                            Leave The Room
-                        </button>
-                    </div>
-                )}
+                <Playerstip />
+                <Playernametip />
                 <button
                     className="btn-top"
                     id="top-left-btns"
@@ -106,7 +166,7 @@ const GamePage = () => {
                                 their words first wins the game.
                             </p>
                             <br></br>
-                            <h2>Dividing into Teams</h2>
+                            <h2 className="rule-headings">Dividing into Teams</h2>
                             <p className="rule-text">
                                 <ul>
                                     <li>
@@ -124,7 +184,7 @@ const GamePage = () => {
                                 </ul>
                             </p>
                             <br></br>
-                            <h2>Giving Clues</h2>
+                            <h2 className="rule-headings">Giving Clues</h2>
                             <p className="rule-text">
                                 Spymasters give clues. When it’s your turn to give a
                                 clue, tap some words in your color that you want to give
@@ -139,7 +199,7 @@ const GamePage = () => {
                                 team's words.
                             </p>
                             <br></br>
-                            <h2>Guessing</h2>
+                            <h2 className="rule-headings">Guessing</h2>
                             <p className="rule-text">
                                 <ul>
                                     <li>
@@ -158,7 +218,7 @@ const GamePage = () => {
                                 </ul>
                             </p>
                             <br></br>
-                            <h2>End of Turn</h2>
+                            <h2 className="rule-headings">End of Turn</h2>
                             <p className="rule-text">
                                 Your turn can end in one of three ways:
                                 <ul>
@@ -176,7 +236,7 @@ const GamePage = () => {
                                 </ul>
                             </p>
                             <br></br>
-                            <h2>Winning and Losing</h2>
+                            <h2 className="rule-headings">Winning and Losing</h2>
                             <p className="rule-text">
                                 Teams alternate turns. A team wins once all their words
                                 have been guessed. They lose if they guess the Assassin!
@@ -192,28 +252,9 @@ const GamePage = () => {
                         </div>
                     </div>
                 )}
-                <button
-                    className="btn-top"
-                    id="top-left-btns"
-                    onClick={() => setRst(!rst)}
-                >
-                    <p>Reset Game</p>
-                </button>
-                {rst && (
-                    <div className="rstdiv">
-                        <div>
-                            <p>This will reset the game for the current table</p>
-                            <br></br>
-                            <p id="warning-text">
-                                Warning!this will reset the current running game!
-                            </p>
-                            <br></br>
-                            <button className="btn-popups">Reset Game</button>
-                        </div>
-                    </div>
-                )}
+                <Resettip />
             </div>
-            <br></br>
+
             <div className="container">
                 <div className="leftmost-container">
                     <div className="container-red">
@@ -379,7 +420,7 @@ const GamePage = () => {
                         <br></br>
                         <button className="blue-button">Join as Spymaster</button>
                     </div>
-                    <div className="bottom-box">
+                    <div class="bottom-box">
                         <p className="chat-tittle">Game Log</p>
                     </div>
                 </div>
@@ -389,7 +430,7 @@ const GamePage = () => {
 };
 
 export function links() {
-    return [{ rel: "stylesheet", href: gameRoomStyles }];
+    return [{ rel: "stylesheet", href: gameStyles }];
 }
 
-export default GamePage;
+export default playGame;

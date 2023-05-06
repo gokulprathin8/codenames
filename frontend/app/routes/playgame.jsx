@@ -4,11 +4,7 @@ import playerImage from "../../public/images/spyware.png";
 import Popup from "reactjs-popup";
 
 const playGame = () => {
-    const [play, setPlay] = useState(false);
-    const [rst, setRst] = useState(false);
     const [rules, setRules] = useState(false);
-    const [pname, setPname] = useState(false);
-    const [clue, setClue] = useState(false);
     const [value, setValue] = useState("");
 
     const handleClick = (event) => {
