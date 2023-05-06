@@ -1,6 +1,6 @@
 .container {
     text-align: center;
-    background-color: #E5FDD1;
+    background-color: #e5fdd1;
     margin: auto;
     padding: 20px;
     width: 35%;
@@ -27,10 +27,10 @@
 
 .button-style {
     border-radius: 4px;
-    background-color: lightgreen; 
+    background-color: lightgreen;
     padding: 14px;
     width: 28%;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
 .label-style {
@@ -38,8 +38,12 @@
 }
 
 body {
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(85,142,65,1) 0%, rgba(0,212,255,1) 100%);
+    background: rgb(2, 0, 36);
+    background: linear-gradient(
+        90deg,
+        rgba(2, 0, 36, 1) 0%,
+        rgba(85, 142, 65, 1) 0%,
+        rgba(0, 212, 255, 1) 100%
+    );
     padding-top: 15%;
 }
-
