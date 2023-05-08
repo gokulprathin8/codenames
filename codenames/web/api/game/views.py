@@ -2,10 +2,10 @@ import uuid
 from fastapi import APIRouter, Depends, Response, HTTPException
 from starlette import status
 
-from codenames.db.models.game import Game, GameStatus, Teams, Room, Cards
+from codenames.db.models.game import Game, GameStatus, Teams, Room, Cards, GameLog
 from codenames.db.models.user import User
 from codenames.web.api.auth.user import oauth2_scheme
-from codenames.web.api.game.base_types import GameRoomBody
+from codenames.web.api.game.base_types import GameRoomBody, CreateLog
 from codenames.web.api.utils.auth import decode_access_token
 from codenames.web.api.utils.word_generator import generate_words
 
@@ -51,7 +51,8 @@ async def exit_game(room_name: GameRoomBody,
                     token=Depends(oauth2_scheme),
                     ):
     current_user = await User.objects.get(username=decode_access_token(token))
-    room = await Room.objects.select_related("games").filter(name=room_name.room_name).get()
+    room = await Room.objects.select_related("games").filter(
+        name=room_name.room_name).get()
 
     # for first game host id
     game_hosted_by: int = room.games[0].host.id
@@ -70,6 +71,17 @@ async def exit_game(room_name: GameRoomBody,
     return room
 
 
-
-
+@router.post("/send_log")
+async def create_log(
+    log_text: CreateLog,
+    token=Depends(oauth2_scheme)
+):
+    current_user = await User.objects.get(username=decode_access_token(token))
+    log = await GameLog.objects.create(
+        text=log_text.text,
+        identifier=str(uuid.uuid4().hex),
+        generated_by=current_user,
+        game=log_text.game_id
+    )
+    return log
 
