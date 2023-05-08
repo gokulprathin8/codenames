@@ -16,6 +16,7 @@ class PlayerType(str, Enum):
 class Teams(str, Enum):
     Red = "Red"
     Blue = "Blue"
+    Black = "Black"
 
 
 class GameStatus(str, Enum):
