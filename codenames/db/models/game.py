@@ -3,9 +3,11 @@ from enum import Enum
 from typing import Optional, Union, List
 
 import ormar
+import requests
 
 from codenames.db.base import BaseMeta
 from codenames.db.models.user import User
+from codenames.db.models.webhook import Webhook
 
 
 class PlayerType(str, Enum):
@@ -96,6 +98,31 @@ class GameLog(ormar.Model):
     updated_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now,
                                                    onupdate=datetime.datetime.now)
 
+    async def save(self, **kwargs):
+        if self.pk:
+            self.updated_at = datetime.datetime.now()
+        else:
+            self.created_at = datetime.datetime.now()
+
+        await super().save(**kwargs)
+        self.trigger_webhooks()
+
+    def trigger_webhooks(self):
+        webhooks = Webhook.objects.filter(game=self.game)
+        for w in webhooks:
+            data = {
+                'event': 'update',
+                'data': {
+                    'id': self.pk,
+                    'game': self.game,
+                    'text': self.text,
+                    'identifier': self.identifier,
+                    'generated_by': self.generated_by,
+                    'created_at': self.created_at,
+                    'updated_at': self.updated_at
+                }
+            }
+            requests.post(w.url, json=data)
 
 #
 #
