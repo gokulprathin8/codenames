@@ -81,6 +81,22 @@ class Player(ormar.Model):
         max_length=24
     )
 
+
+class GameLog(ormar.Model):
+
+    class Meta(BaseMeta):
+        tablename = "game_log"
+    id: int = ormar.Integer(primary_key=True)
+    game: int = ormar.ForeignKey(Game)
+    text: str = ormar.String(max_length=2048)
+    identifier: str = ormar.String(max_length=1024)
+    generated_by: int = ormar.ForeignKey(User)
+
+    created_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now)
+    updated_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now,
+                                                   onupdate=datetime.datetime.now)
+
+
 #
 #
 # class Player(ormar.Model):
