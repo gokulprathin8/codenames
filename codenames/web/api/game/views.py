@@ -22,12 +22,12 @@ async def get_all_rooms():
 async def create_game_room(create_game: CreateGameRoom, token=Depends(oauth2_scheme)):
     current_user = await User.objects.get(username=decode_access_token(token))
     room = await Room.objects.create(name=create_game.room_name,
-                               share_uuid=str(uuid.uuid4().hex),
-                               is_active=True,
-                               players=[current_user])
+                                     share_uuid=str(uuid.uuid4().hex),
+                                     is_active=True,
+                                     players=[current_user])
     game_room = await Game.objects.create(status=GameStatus.BLUE_SPY_MASTER,
-                                    turn=Teams.Blue,
-                                    room=room.id)
+                                          turn=Teams.Blue,
+                                          room=room.id)
     cards = list()
     blue_card_words = generate_words(12)
     red_card_words = generate_words(12)
@@ -41,7 +41,3 @@ async def create_game_room(create_game: CreateGameRoom, token=Depends(oauth2_sch
                        game=game_room.id))  # for the black card
     await Cards.objects.bulk_create(cards)
     return {'status': 'success'}
-
-
-
-
