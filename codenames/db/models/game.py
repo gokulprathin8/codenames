@@ -51,6 +51,7 @@ class Game(ormar.Model):
         max_length=24
     )
     room: int = ormar.ForeignKey(Room)
+    host: int = ormar.ForeignKey(User, related_name="game_host", null=True)
 
 
 class Cards(ormar.Model):
