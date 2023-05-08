@@ -1,5 +1,5 @@
 import uuid
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, HTTPException
 from starlette import status
 
 from codenames.db.models.game import Game, GameStatus, Teams, Room, Cards
@@ -52,7 +52,16 @@ async def exit_game(room_name: GameRoomBody,
                     ):
     current_user = await User.objects.get(username=decode_access_token(token))
     room = await Room.objects.select_related("games").filter(name=room_name.room_name).get()
-    print(room)
+
+    # for first game host id
+    game_hosted_by: int = room.games[0].host.id
+    if game_hosted_by != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="You are not the host of the room, please contact the host to "
+                   "close the room"
+        )
+
     if not room:
         response.status_code = status.HTTP_404_NOT_FOUND
         return {"message": f"room with room name {room_name}, not found."}
