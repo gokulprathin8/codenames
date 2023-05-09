@@ -1,12 +1,16 @@
+import Popup from "reactjs-popup";
 import React, { useState } from "react";
 import gameStyles from "../styles/gamepage.room.css";
 import playerImage from "../../public/images/spyware.png";
-import Popup from "reactjs-popup";
 import codenamesCover from "../../public/images/codenames-cover.jpg";
+import useAuthStore from "../store/auth";
+import {createRoom} from "../store/room";
 
-const playGame = () => {
+const GamePage = () => {
+
+    const jwtToken = useAuthStore((state) => state.jwtToken);
     const [rules, setRules] = useState(false);
-    const [value, setValue] = useState("");
+    const [roomName, setRoomName] = useState('');
 
     /**
      * ! install react-js popup to run
@@ -91,53 +95,19 @@ const playGame = () => {
         </Popup>
     );
 
-    /**
-     * ! the below code is to show a tooltip when clue button is clicked
-     */
-    const Cluetip = () => (
-        <Popup
-            trigger={(open) => <button className="btn-below">Clue No:{value}</button>}
-            position="bottom center"
-            closeOnDocumentClick
-        >
-            <div className="cluediv-popup-content">
-                <button className="clue-btn" onClick={handleClick}>
-                    1
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    2
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    3
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    4
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    5
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    6
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    7
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    8
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    9
-                </button>
-            </div>
-        </Popup>
-    );
+    const handleInputChange = (event) => {
+        setRoomName(event.target.value);
+    };
+
+    async function onCreateRoom() {
+        // check if room name is empty
+        await createRoom(jwtToken, roomName);
+    }
+
+
 
     return (
         <div>
-            <head>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            </head>
-
             <div className="top-container">
                 <Playerstip />
                 <Playernametip />
@@ -376,10 +346,11 @@ const playGame = () => {
                                 <div className="new-room-input">
                                     <input
                                         type="text"
-                                        placeholder=">>Enter Room Name"
+                                        placeholder="Enter Room Name"
                                         id="text-input-room"
+                                        onChange={handleInputChange}
                                     />
-                                    <button className="btn-room-create">Create</button>
+                                    <button className="btn-room-create" onClick={onCreateRoom}>Create</button>
                                 </div>
                             </div>
                             <div className="team">
@@ -420,7 +391,7 @@ const playGame = () => {
                         <br></br>
                         <button className="blue-button">Join as Spymaster</button>
                     </div>
-                    <div class="bottom-box">
+                    <div className="bottom-box">
                         <p className="chat-tittle">Game Log</p>
                     </div>
                 </div>
@@ -433,4 +404,4 @@ export function links() {
     return [{ rel: "stylesheet", href: gameStyles }];
 }
 
-export default playGame;
+export default GamePage;

@@ -3,7 +3,7 @@ import playGameStyles from "../styles/playgame.room.css";
 import playerImage from "../../public/images/spyware.png";
 import Popup from "reactjs-popup";
 
-const playGame = () => {
+const PlayGame = () => {
     const [rules, setRules] = useState(false);
     const [value, setValue] = useState("");
 
@@ -350,7 +350,7 @@ const playGame = () => {
                         <br></br>
                         <button className="blue-button">Join as Spymaster</button>
                     </div>
-                    <div class="bottom-box">
+                    <div className="bottom-box">
                         <p className="chat-tittle">Game Log</p>
                     </div>
                 </div>
@@ -363,4 +363,4 @@ export function links() {
     return [{ rel: "stylesheet", href: playGameStyles }];
 }
 
-export default playGame;
+export default PlayGame;

@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {devtools, persist} from "zustand/middleware";
-import {SERVER_URL, DEV} from "../constants";
+import {SERVER_URL} from "../constants";
 
 export async function authenticateUser(username, password) {
     const formData = new FormData();

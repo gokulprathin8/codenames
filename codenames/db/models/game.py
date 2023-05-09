@@ -1,13 +1,15 @@
+import asyncio
 import datetime
+import json
 from enum import Enum
 from typing import Optional, Union, List
 
 import ormar
 import requests
+from fastapi import websockets
 
 from codenames.db.base import BaseMeta
 from codenames.db.models.user import User
-from codenames.db.models.webhook import Webhook
 
 
 class PlayerType(str, Enum):
@@ -105,11 +107,12 @@ class GameLog(ormar.Model):
             self.created_at = datetime.datetime.now()
 
         await super().save(**kwargs)
-        self.trigger_webhooks()
+        await self.trigger_websockets()
 
-    def trigger_webhooks(self):
-        webhooks = Webhook.objects.filter(game=self.game)
-        for w in webhooks:
+    async def trigger_websockets(self):
+        async with websockets.connect('ws://localhost:8000') as websocket:
+            websockets.add(websocket)
+
             data = {
                 'event': 'update',
                 'data': {
@@ -118,12 +121,11 @@ class GameLog(ormar.Model):
                     'text': self.text,
                     'identifier': self.identifier,
                     'generated_by': self.generated_by,
-                    'created_at': self.created_at,
-                    'updated_at': self.updated_at
+                    'created_at': self.created_at.isoformat(),
+                    'updated_at': self.updated_at.isoformat()
                 }
             }
-            requests.post(w.url, json=data)
-
+            await asyncio.wait([ws.send(json.dumps(data)) for ws in websockets])
 #
 #
 # class Player(ormar.Model):
@@ -174,6 +176,12 @@ class GameLog(ormar.Model):
 #         if not self.id:
 #             self.created_at = datetime.datetime.now()
 #         return await super().save(*args, **kwargs)
+
+
+class Webhook(ormar.Model):
+    id: int = ormar.Integer(primary_key=True)
+    url: str = ormar.String(max_length=2048)
+    game: int = ormar.ForeignKey(Game)
 
 
 class GameStats(ormar.Model):
