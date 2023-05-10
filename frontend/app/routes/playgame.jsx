@@ -337,7 +337,7 @@ const PlayGame = () => {
                             onClick={() => handleCardClick(card.sequence)}
                         >
                             <div id={index.toString()} className="card-front"></div>
-                            <div id={index.toString()} className="card-back" style={{ backgroundColor: card.color === "Blue"? "cadetblue" : "indianred" }}>
+                            <div id={index.toString()} className="card-back" style={{ backgroundColor: card.color === "Blue"? "cadetblue" : card.color === "Red" ? "indianred": "gray" }}>
                                 <p className="flip-text">{card && card['text'] ? card['text'] : 'Loading...'}</p>
                             </div>
                         </div>

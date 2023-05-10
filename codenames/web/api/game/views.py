@@ -22,8 +22,8 @@ async def get_all_rooms():
 
 @router.post("/create")
 async def create_game_room(create_game: GameRoomBody, token=Depends(oauth2_scheme)):
-    default_sequence = [i for i in range(1, 26)]
-    random.shuffle(default_sequence)
+    seq_list = [i for i in range(1, 26)]
+    default_sequence = random.sample(seq_list, len(seq_list))
 
     current_user = await User.objects.get(username=decode_access_token(token))
     room = await Room.objects.create(name=create_game.room_name,

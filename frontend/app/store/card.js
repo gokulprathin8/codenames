@@ -1,6 +1,7 @@
 import {SERVER_URL} from "../constants";
 import {devtools, persist} from "zustand/middleware";
 import {create} from "zustand";
+import _ from "underscore";
 
 export async function reveal_card(user, index, roomId) {
     const card = await fetch(`${SERVER_URL}game/reveal_card?room_id=${roomId}&index=${index}`, {
@@ -26,7 +27,7 @@ export async function get_all_cards(user, roomId) {
 
 const cardsStore = (set) => ({
     cardData: [],
-    setCardData: (data) => set({cardData: data}),
+    setCardData: (data) => set({cardData: _.sortBy(data, 'sequence')}),
     addTextToCard: (id, text) =>
         set((state) => {
           const updatedCardData = state.cardData.map((card) => {
@@ -38,7 +39,7 @@ const cardsStore = (set) => ({
             }
             return card;
           });
-          return { cardData: updatedCardData };
+          return { cardData: _.sortBy(updatedCardData, 'sequence') };
     }),
 })
 
