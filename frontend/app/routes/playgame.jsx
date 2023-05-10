@@ -453,7 +453,9 @@ const PlayGame = () => {
                             onClick={() => handleCardClick(card.index)}
                         >
                             <div id={index.toString()} className="card-front"></div>
-                            <div id={index.toString()} className="card-back"></div>
+                            <div id={index.toString()} className="card-back">
+                                <p className="flip-text">Random</p>
+                            </div>
                         </div>
                         ))}
                     </div>
