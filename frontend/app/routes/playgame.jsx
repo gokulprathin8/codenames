@@ -462,8 +462,8 @@ const PlayGame = () => {
                             className={`card${card.isFlipped ? " flipped" : ""}`}
                             onClick={() => handleCardClick(card.index)}
                         >
-                            <div class="card-front"></div>
-                            <div class="card-back"></div>
+                            <div id={index.toString()} className="card-front"></div>
+                            <div id={index.toString()} className="card-back"></div>
                         </div>
                         ))}
                     </div>

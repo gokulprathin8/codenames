@@ -68,8 +68,10 @@ class Cards(ormar.Model):
         choices=Teams,
         max_length=24
     )
+    sequence: int = ormar.Integer(nullable=True)
     text: str = ormar.String(max_length=255)
     game = ormar.ForeignKey(Game)
+    is_revealed: bool = ormar.Boolean(default=False)
 
 
 class Player(ormar.Model):
