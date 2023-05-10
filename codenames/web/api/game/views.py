@@ -1,3 +1,4 @@
+import random
 import uuid
 from fastapi import APIRouter, Depends, Response, HTTPException
 from starlette import status
@@ -21,6 +22,9 @@ async def get_all_rooms():
 
 @router.post("/create")
 async def create_game_room(create_game: GameRoomBody, token=Depends(oauth2_scheme)):
+    default_sequence = [i for i in range(1, 26)]
+    random.shuffle(default_sequence)
+
     current_user = await User.objects.get(username=decode_access_token(token))
     room = await Room.objects.create(name=create_game.room_name,
                                      share_uuid=str(uuid.uuid4().hex),
@@ -35,12 +39,14 @@ async def create_game_room(create_game: GameRoomBody, token=Depends(oauth2_schem
     red_card_words = generate_words(12)
     for i in range(12):
         cards.append(Cards(room_name=room.id, color=Teams.Blue, text=blue_card_words[i],
-                           game=game_room.id))
+                           game=game_room.id, sequence=default_sequence[i]))
+    default_sequence = default_sequence[12:]  # remove assigned sequence
     for i in range(12):
         cards.append(Cards(room_name=room.id, color=Teams.Red, text=red_card_words[i],
-                           game=game_room.id))
+                           game=game_room.id, sequence=default_sequence[i]))
+    default_sequence = default_sequence[12:]  # remove assigned sequence
     cards.append(Cards(room_name=room.id, color=Teams.Black, text=generate_words(1)[0],
-                       game=game_room.id))  # for the black card
+                       game=game_room.id, sequence=default_sequence[0]))
     await Cards.objects.bulk_create(cards)
     return {'status': 'success', 'room_id': room.id}
 
@@ -85,3 +91,16 @@ async def create_log(
     )
     return log
 
+
+@router.get("/reveal_card")
+async def reveal_card(
+    index: int,
+    room_id: int,
+    token=Depends(oauth2_scheme)
+):
+    await User.objects.get(username=decode_access_token(token))
+    # TODO: add user check, if user is in room
+    card = await Cards.objects.get(sequence=index, room_name=room_id)
+    card.is_revealed = True
+    await card.update()
+    return card

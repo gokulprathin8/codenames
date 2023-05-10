@@ -4,6 +4,8 @@ import playerImage from "../../public/images/spyware.png";
 import Popup from "reactjs-popup";
 import useAuthStore from "../store/auth";
 import { useNavigate } from "@remix-run/react";
+import {reveal_card} from "../store/card";
+import useRoomStore from "../store/room";
 
 const PlayGame = () => {
     const navigate = useNavigate();
@@ -140,6 +142,7 @@ const PlayGame = () => {
     const [cards, setCards] = useState(cardsArray);
 
     const jwtToken = useAuthStore((state) => state.jwtToken);
+    const roomId = useRoomStore((state) => state.roomId);
 
     useEffect(() => {
         if (!jwtToken) {
@@ -275,20 +278,7 @@ const PlayGame = () => {
         </Popup>
     );
 
-    // const handleCardClick = (id) => {
-    //     const updatedCards = cards.map((card) => {
-    //         if (card.index === id) {
-    //             return {
-    //                 ...card,
-    //                 isFlipped: !card.isFlipped,
-    //             };
-    //         }
-    //         return card;
-    //     });
-    //     setCards(updatedCards);
-    // };
-
-    const handleCardClick = (id) => {
+    async function handleCardClick(id) {
         const updatedCards = cards.map((card) => {
           if (card.index === id && !card.isFlipped) {
             return {
@@ -299,14 +289,14 @@ const PlayGame = () => {
           return card;
         });
         setCards(updatedCards);
-      };
+
+       const card_detail = await reveal_card(jwtToken, id, roomId);
+       console.log(card_detail);
+
+      }
 
     return (
         <div>
-            <head>
-                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            </head>
-
             <div className="top-container">
                 <Playerstip />
                 <Playernametip />
@@ -462,8 +452,8 @@ const PlayGame = () => {
                             className={`card${card.isFlipped ? " flipped" : ""}`}
                             onClick={() => handleCardClick(card.index)}
                         >
-                            <div class="card-front"></div>
-                            <div class="card-back"></div>
+                            <div id={index.toString()} className="card-front"></div>
+                            <div id={index.toString()} className="card-back"></div>
                         </div>
                         ))}
                     </div>

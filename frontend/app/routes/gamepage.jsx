@@ -4,7 +4,7 @@ import gameStyles from "../styles/gamepage.room.css";
 import playerImage from "../../public/images/spyware.png";
 import codenamesCover from "../../public/images/codenames-cover.jpg";
 import useAuthStore from "../store/auth";
-import {createRoom} from "../store/room";
+import useRoomStore, {createRoom} from "../store/room";
 import {useNavigate} from "@remix-run/react";
 import { Spinner } from '@chakra-ui/react';
 
@@ -13,6 +13,7 @@ const GamePage = () => {
     const navigate = useNavigate();
 
     const jwtToken = useAuthStore((state) => state.jwtToken);
+    const setRoomId = useRoomStore((state) => state.setRoomId);
     const [rules, setRules] = useState(false);
     const [roomName, setRoomName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -110,6 +111,12 @@ const GamePage = () => {
             navigate('/auth/login');
         }
         else {
+            createRoom(jwtToken, roomName).then(
+                (data) => {
+                    setRoomId(data['room_id']);
+                    navigate('/playgame');
+                }
+            )
             setIsLoading(true);
             await createRoom(jwtToken, roomName);
             setIsLoading(false);

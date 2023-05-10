@@ -1,4 +1,6 @@
 import {SERVER_URL} from "../constants";
+import {devtools, persist} from "zustand/middleware";
+import {create} from "zustand";
 
 
 export async function createRoom(user, roomName) {
@@ -13,3 +15,18 @@ export async function createRoom(user, roomName) {
     })
     return await room.json();
 }
+
+const roomStore = (set) => ({
+    roomId: null,
+    setRoomId: (id) => set({roomId: id}),
+})
+
+const useRoomStore = create(
+    devtools(
+        persist(roomStore, {
+            name: 'Room'
+        })
+    )
+)
+
+export default useRoomStore;
