@@ -8,7 +8,7 @@ export async function createRoom(user, roomName) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + user['access_token'],
+            'Authorization': 'Bearer ' + user,
         },
         body: JSON.stringify({room_name: roomName}),
 

@@ -23,7 +23,7 @@ export async function joinTeam(color, mode, roomId, user) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + user['access_token']
+            Authorization: 'Bearer ' + user
         },
         body: JSON.stringify({
             'room_id': roomId,

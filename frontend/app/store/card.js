@@ -8,7 +8,7 @@ export async function reveal_card(user, index, roomId) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${user['access_token']}`
+            Authorization: `Bearer ${user}`
         }
     });
     return card.json();

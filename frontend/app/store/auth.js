@@ -22,9 +22,21 @@ export async function registerUser(username, password) {
     return await user.json();
 }
 
+export async function userProfile(token) {
+    const me = await fetch(`${SERVER_URL}auth/me`, {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    })
+    return me.json();
+}
+
 const authStore = (set) => ({
     jwtToken: null,
-    setJWT: (token) => set({jwtToken: token}),
+    userProfile: null,
+    setJWT: (token) => set({jwtToken: token['access_token']}),
+    setUserProfile: (data) => set({userProfile: data}),
 });
 
 

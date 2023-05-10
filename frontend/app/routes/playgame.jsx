@@ -7,9 +7,20 @@ import { useNavigate } from "@remix-run/react";
 import useCardsStore, {get_all_cards, reveal_card} from "../store/card";
 import useRoomStore from "../store/room";
 import {joinTeam} from "../store/playerType";
+import {SERVER_URL} from "../constants";
 
 const PlayGame = () => {
     const navigate = useNavigate();
+
+    const [gameState, setGameState] = useState(null);
+    const [etag, setEtag] = useState(null);
+    const [redOperatives, setRedOperatives] = useState([]);
+    const [blueOperatives, setBlueOperatives] = useState([]);
+    const [showClueBar, setShowClueBar] = useState(false);
+
+    const [redSpyMasterEmail, setRedSpyMasterEmail] = useState("");
+    const [blueSpyMasterEmail, setBlueSpyMasterEmail] = useState("");
+
     const cards = useCardsStore((state) => state.cardData);
     const setCards = useCardsStore((state) => state.setCardData);
     const addColorToCard = useCardsStore((state) => state.addColorToCard);
@@ -19,6 +30,51 @@ const PlayGame = () => {
 
     const jwtToken = useAuthStore((state) => state.jwtToken);
     const roomId = useRoomStore((state) => state.roomId);
+    const userProfileData = useAuthStore((state) => state.userProfile);
+
+  useEffect(() => {
+        async function fetchGameState() {
+          const headers = {};
+          if (etag) {
+            headers["If-None-Match"] = etag;
+          }
+
+          const response = await fetch(`${SERVER_URL}poll/state?room_id=${roomId}`, { headers });
+          if (response.status === 200) {
+            const data = await response.json();
+            setGameState(data);
+            setCards(data[0]['card']);
+
+            let blueOperative = [];
+            let redOperative = [];
+            const players = data[0]['players'];
+            players.forEach(p => {
+                if (p['team_color'] === "Red") {
+                    if (p['operative']) {
+                        redOperative.push(p['user__username'])
+                    } else {
+                        setRedSpyMasterEmail(p['user__username'])
+                    }
+                } else {
+                    if (p['operative']) {
+                        blueOperative.push(p['user__username'])
+                    } else {
+                        setBlueSpyMasterEmail(p['user__username'])
+                    }
+                }
+            });
+
+            setRedOperatives(redOperative);
+            setBlueOperatives(blueOperative);
+
+          } else if (response.status === 304) {
+            // The server has not sent new data, reuse the previous state
+          }
+        }
+
+        const intervalId = setInterval(fetchGameState, 1000);
+        return () => clearInterval(intervalId);
+  });
 
     useEffect( () => {
         if (!jwtToken) {
@@ -181,6 +237,27 @@ const PlayGame = () => {
       }
 
 
+  useEffect(() => {
+
+      async function traversePlayerType() {
+        let players = gameState ? gameState[0]['players'] : [];
+        players.forEach(p => {
+            if (p['user__username'] === userProfileData['username']) {
+                if (p['spymaster']) {
+                    setShowClueBar(true);
+                } else {
+                    setShowClueBar(false);
+                }
+            }
+        });
+    }
+    async function fetchData() {
+      await traversePlayerType();
+    }
+    fetchData();
+  }, [gameState, userProfileData]);
+
+
     async function handlePlayerJoin(e) {
         let mode;
         let color;
@@ -196,8 +273,9 @@ const PlayGame = () => {
         }
 
         await joinTeam(color, mode, roomId, jwtToken);
-
     }
+
+
 
     return (
         <div>
@@ -319,7 +397,9 @@ const PlayGame = () => {
             </div>
 
             <div className="below-top-container">
-                <p>Game Status...</p>
+                {
+                    <p>{gameState ? gameState[0]['state'][0]['status'] : 'Loading...'}</p>
+                }
             </div>
 
             <div className="container">
@@ -339,8 +419,11 @@ const PlayGame = () => {
 
                             <p className="operative-text">Current Operatives:</p>
 
-                            {/* add operative iteration code here */}
-                            <p className="operative-text">-</p>
+                            {redOperatives.length ? redOperatives.map(t => (
+                                <p style={{ padding: "4px", color: "white" }} key={t} className="operative-text">
+                                    {t}
+                                </p>
+                            )): <p style={{ padding: "4px", color: "white" }}> No Players Joined this team yet. </p>}
                         </div>
                         <button className="red-button" onClick={handlePlayerJoin}>Join as Operative</button>
                         <br></br>
@@ -363,12 +446,17 @@ const PlayGame = () => {
 
                             </div>
                             <div id={index.toString()} className="card-back" style={{ backgroundColor: card.color === "Blue"? "cadetblue" : card.color === "Red" ? "indianred": "gray" }}>
-                                <p className="flip-text">{card && card['text'] ? card['text'] : 'Loading...'}</p>
+                                <div className="preflip-text">
+                                    <p  className="flip-text">{card && card['text'] ? card['text'] : 'Loading...'}</p>
+                                </div>
                             </div>
                         </div>
                         ))}
                     </div>
-                    <div className="below-container">
+                    {
+                        showClueBar
+                            ?
+                            <div className="below-container">
                         <input
                             type="text"
                             id="text-input"
@@ -376,7 +464,9 @@ const PlayGame = () => {
                         ></input>
                         <Cluetip />
                         <button className="btn-below">Give Clue</button>
-                    </div>
+                    </div> : null
+                    }
+
                 </div>
 
                 <div className="rightmost-container">
@@ -394,7 +484,12 @@ const PlayGame = () => {
                             />
 
                             <p className="operative-text">Current Operatives:</p>
-                            <p className="operative-text">-</p>
+                            {blueOperatives.length ? blueOperatives.map(t => (
+                                <p key={t} style={{ padding: "4px", color: "white" }} className="operative-text">
+                                    {t}
+                                </p>
+                            )) : <p style={{ padding: "4px", color: "white" }}> No Players Joined this team yet. </p>}
+
                         </div>
                         <button className="blue-button" onClick={handlePlayerJoin}>Join as Operative</button>
                         <br></br>

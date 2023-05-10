@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import gameStyles from "../styles/gamepage.room.css";
 import playerImage from "../../public/images/spyware.png";
 import codenamesCover from "../../public/images/codenames-cover.jpg";
-import useAuthStore from "../store/auth";
+import useAuthStore, {userProfile} from "../store/auth";
 import useRoomStore, {createRoom} from "../store/room";
 import {useNavigate} from "@remix-run/react";
 import { Spinner } from '@chakra-ui/react';
@@ -14,6 +14,8 @@ const GamePage = () => {
 
     const jwtToken = useAuthStore((state) => state.jwtToken);
     const setRoomId = useRoomStore((state) => state.setRoomId);
+    const userProfileData = useAuthStore((state) => state.userProfile);
+    const setUserProfile = useAuthStore((state) => state.setUserProfile);
     const [rules, setRules] = useState(false);
     const [roomName, setRoomName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +49,10 @@ const GamePage = () => {
         <Popup
             trigger={(open) => (
                 <button className="btn-top" id="top-left-btns">
-                    Player Name
+                    {
+                        userProfileData &&
+                        userProfileData['username'].split('@')
+                    }
                 </button>
             )}
             position="bottom center"
@@ -63,9 +68,11 @@ const GamePage = () => {
                             name="name"
                             id="nicknameform"
                             placeholder="Display Player Name"
+                            value={userProfileData && userProfileData['username']}
+                            disabled={true}
+                            style={{ cursor: 'not-allowed' }}
                         />
                     </div>
-                    <button className="btn-popups">Update Your Nickname</button>
                 </div>
                 <button id="leave-btn" className="btn-popups">
                     Leave The Room
@@ -126,10 +133,16 @@ const GamePage = () => {
 
     useEffect(() => {
             if (!jwtToken) {
-            console.log('User not authenticated. Redirect to Authentication page.')
-            navigate('/auth/login');
-        }
-    }, [jwtToken, navigate])
+                console.log('User not authenticated. Redirect to Authentication page.')
+                navigate('/auth/login');
+            } else {
+
+                userProfile(jwtToken).then(userDetails => {
+                    setUserProfile(userDetails);
+                })
+            }
+
+    }, [jwtToken, navigate, setUserProfile, userProfile]);
 
 
 
@@ -138,7 +151,7 @@ const GamePage = () => {
                   {isLoading && (
         <div className="spin" style={{display:"flex", flexDirection: "column"}}>
           <Spinner  thickness='4px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='xl' width={40} height={40}/>
-        
+
           <p style={{paddingTop: "20px", marginLeft: "5px"}}>Loading...</p>
         </div>
       )}
