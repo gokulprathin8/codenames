@@ -1,26 +1,152 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import playGameStyles from "../styles/playgame.room.css";
 import playerImage from "../../public/images/spyware.png";
 import Popup from "reactjs-popup";
 import useAuthStore from "../store/auth";
-import {useNavigate} from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 
 const PlayGame = () => {
-
     const navigate = useNavigate();
 
     const [rules, setRules] = useState(false);
     const [value, setValue] = useState("");
+    const cardsArray =[
+        {
+            index: 1,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 2,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 3,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 4,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 5,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 6,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 7,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 8,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 9,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 10,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 11,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 12,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 13,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 14,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 15,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 16,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 17,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 18,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 19,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 20,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 21,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 22,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 23,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 24,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        },
+        {
+            index: 25,
+            isFlipped: false,
+            flipColor: "#2980b9",
+        }
+    ];
+    const [cards, setCards] = useState(cardsArray);
 
     const jwtToken = useAuthStore((state) => state.jwtToken);
 
     useEffect(() => {
-            if (!jwtToken) {
-            console.log('User not authenticated. Redirect to Authentication page.')
-            navigate('/auth/login');
+        if (!jwtToken) {
+            console.log("User not authenticated. Redirect to Authentication page.");
+            navigate("/auth/login");
         }
-    }, [jwtToken, navigate])
-
+    }, [jwtToken, navigate]);
 
     const handleClick = (event) => {
         setValue(event.target.innerText);
@@ -148,6 +274,32 @@ const PlayGame = () => {
             </div>
         </Popup>
     );
+
+    // const handleCardClick = (id) => {
+    //     const updatedCards = cards.map((card) => {
+    //         if (card.index === id) {
+    //             return {
+    //                 ...card,
+    //                 isFlipped: !card.isFlipped,
+    //             };
+    //         }
+    //         return card;
+    //     });
+    //     setCards(updatedCards);
+    // };
+
+    const handleCardClick = (id) => {
+        const updatedCards = cards.map((card) => {
+          if (card.index === id && !card.isFlipped) {
+            return {
+              ...card,
+              isFlipped: true,
+            };
+          }
+          return card;
+        });
+        setCards(updatedCards);
+      };
 
     return (
         <div>
@@ -304,32 +456,16 @@ const PlayGame = () => {
 
                 <div className="center">
                     <div className="cards-container-5-by-5">
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
-                        <div className="card"></div>
+                        {cards.map((card, index) => (
+                            <div
+                            key={index}
+                            className={`card${card.isFlipped ? " flipped" : ""}`}
+                            onClick={() => handleCardClick(card.index)}
+                        >
+                            <div class="card-front"></div>
+                            <div class="card-back"></div>
+                        </div>
+                        ))}
                     </div>
                     <div className="below-container">
                         <input
