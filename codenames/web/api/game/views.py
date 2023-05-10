@@ -3,10 +3,11 @@ import uuid
 from fastapi import APIRouter, Depends, Response, HTTPException
 from starlette import status
 
-from codenames.db.models.game import Game, GameStatus, Teams, Room, Cards, GameLog
+from codenames.db.models.game import (Game, GameStatus, Teams, Room, Cards, GameLog,
+                                      Player)
 from codenames.db.models.user import User
 from codenames.web.api.auth.user import oauth2_scheme
-from codenames.web.api.game.base_types import GameRoomBody, CreateLog
+from codenames.web.api.game.base_types import GameRoomBody, CreateLog, PlayerTypeIn
 from codenames.web.api.utils.auth import decode_access_token
 from codenames.web.api.utils.word_generator import generate_words
 
@@ -96,14 +97,18 @@ async def create_log(
 async def reveal_card(
     index: int,
     room_id: int,
+    response: Response,
     token=Depends(oauth2_scheme)
 ):
     await User.objects.get(username=decode_access_token(token))
     # TODO: add user check, if user is in room
-    card = await Cards.objects.get(sequence=index, room_name=room_id)
-    card.is_revealed = True
-    await card.update()
-    return card
+    card = await Cards.objects.get_or_none(sequence=index, room_name=room_id)
+    if card:
+        card.is_revealed = True
+        await card.update()
+        return card
+    response.status_code = status.HTTP_404_NOT_FOUND
+    return {'message': 'no matching card found'}
 
 
 @router.get("/get_all_cards")
@@ -118,4 +123,29 @@ async def get_all_cards(
         if not c['is_revealed']:
             del c['color']  # delete color for cards which are not revealed
     return card
+
+
+@router.post("/player_type")
+async def player_type(
+    player: PlayerTypeIn,
+    token=Depends(oauth2_scheme)
+):
+    current_user = await User.objects.get(username=decode_access_token(token))
+    existing_player = await Player.objects.get_or_none(room=player.room_id,
+                                               user=current_user.id)
+    if existing_player:
+        existing_player.spymaster = player.spymaster
+        existing_player.operative = player.operative
+        existing_player.team_color = player.team_color
+        await existing_player.update()
+        return existing_player
+    else:
+        new_player = await Player(
+            room=player.room_id,
+            spymaster=player.spymaster,
+            operative=player.operative,
+            team_color=player.team_color,
+            user=current_user.id
+        ).save()
+        return new_player
 

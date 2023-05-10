@@ -2,10 +2,9 @@ import asyncio
 import datetime
 import json
 from enum import Enum
-from typing import Optional, Union, List
+from typing import List
 
 import ormar
-import requests
 from fastapi import websockets
 
 from codenames.db.base import BaseMeta
@@ -83,9 +82,10 @@ class Player(ormar.Model):
     spymaster: bool = ormar.Boolean(default=False)
     operative: bool = ormar.Boolean(default=False)
     team_color: str = ormar.String(
-        choices=PlayerType,
+        choices=Teams,
         max_length=24
     )
+    user: int = ormar.ForeignKey(User, related_name="player_details")
 
 
 class GameLog(ormar.Model):

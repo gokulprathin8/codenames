@@ -6,6 +6,7 @@ import useAuthStore from "../store/auth";
 import { useNavigate } from "@remix-run/react";
 import useCardsStore, {get_all_cards, reveal_card} from "../store/card";
 import useRoomStore from "../store/room";
+import {joinTeam} from "../store/playerType";
 
 const PlayGame = () => {
     const navigate = useNavigate();
@@ -179,6 +180,25 @@ const PlayGame = () => {
             addColorToCard(cardDetail.id, cardDetail.color);
       }
 
+
+    async function handlePlayerJoin(e) {
+        let mode;
+        let color;
+        if (e.target.className === 'red-button') {
+            color = 'red';
+        } else {
+            color = 'blue';
+        }
+        if (e.target.innerText === "JOIN AS OPERATIVE") {
+            mode = 'operative'
+        } else {
+            mode = 'spymaster'
+        }
+
+        await joinTeam(color, mode, roomId, jwtToken);
+
+    }
+
     return (
         <div>
             <div className="top-container">
@@ -322,9 +342,9 @@ const PlayGame = () => {
                             {/* add operative iteration code here */}
                             <p className="operative-text">-</p>
                         </div>
-                        <button className="red-button">Join as Operative</button>
+                        <button className="red-button" onClick={handlePlayerJoin}>Join as Operative</button>
                         <br></br>
-                        <button className="red-button">Join as Spymaster</button>
+                        <button className="red-button" onClick={handlePlayerJoin}>Join as Spymaster</button>
                     </div>
                 </div>
 
@@ -374,13 +394,11 @@ const PlayGame = () => {
                             />
 
                             <p className="operative-text">Current Operatives:</p>
-
-                            {/* add operative iteration code here */}
                             <p className="operative-text">-</p>
                         </div>
-                        <button className="blue-button">Join as Operative</button>
+                        <button className="blue-button" onClick={handlePlayerJoin}>Join as Operative</button>
                         <br></br>
-                        <button className="blue-button">Join as Spymaster</button>
+                        <button className="blue-button" onClick={handlePlayerJoin}>Join as Spymaster</button>
                     </div>
                     <div className="bottom-box">
                         <p className="chat-tittle">Game Log</p>

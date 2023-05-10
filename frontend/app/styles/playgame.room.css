@@ -59,9 +59,7 @@
 .preflip-text {
     background-color: white;
     opacity: 0.6;
-    margin-left: 5%;
-    margin-right: 5%;
-    border-radius: 200px;
+    line-height: 10px;
 }
 
 .flip-text {

@@ -1,5 +1,7 @@
 from pydantic import BaseModel
 
+from codenames.db.models.game import Teams
+
 
 class GameRoomBody(BaseModel):
     room_name: str
@@ -8,3 +10,10 @@ class GameRoomBody(BaseModel):
 class CreateLog(BaseModel):
     text: str
     game_id: int
+
+
+class PlayerTypeIn(BaseModel):
+    room_id: int
+    spymaster: bool
+    operative: bool
+    team_color: Teams
