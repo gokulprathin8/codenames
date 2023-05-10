@@ -27,6 +27,6 @@ const useRoomStore = create(
             name: 'Room'
         })
     )
-)
+);
 
 export default useRoomStore;

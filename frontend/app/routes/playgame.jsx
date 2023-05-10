@@ -4,152 +4,37 @@ import playerImage from "../../public/images/spyware.png";
 import Popup from "reactjs-popup";
 import useAuthStore from "../store/auth";
 import { useNavigate } from "@remix-run/react";
-import {reveal_card} from "../store/card";
+import useCardsStore, {get_all_cards, reveal_card} from "../store/card";
 import useRoomStore from "../store/room";
 
 const PlayGame = () => {
     const navigate = useNavigate();
+    const cards = useCardsStore((state) => state.cardData);
+    const setCards = useCardsStore((state) => state.setCardData);
+    const addTextToCard = useCardsStore((state) => state.addTextToCard);
 
     const [rules, setRules] = useState(false);
     const [value, setValue] = useState("");
-    const cardsArray =[
-        {
-            index: 1,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 2,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 3,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 4,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 5,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 6,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 7,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 8,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 9,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 10,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 11,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 12,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 13,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 14,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 15,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 16,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 17,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 18,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 19,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 20,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 21,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 22,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 23,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 24,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        },
-        {
-            index: 25,
-            isFlipped: false,
-            flipColor: "#2980b9",
-        }
-    ];
-    const [cards, setCards] = useState(cardsArray);
 
     const jwtToken = useAuthStore((state) => state.jwtToken);
     const roomId = useRoomStore((state) => state.roomId);
 
-    useEffect(() => {
+    useEffect( () => {
         if (!jwtToken) {
             console.log("User not authenticated. Redirect to Authentication page.");
             navigate("/auth/login");
         }
-    }, [jwtToken, navigate]);
+
+        // fetch cards
+        const cardsSideEffect = async () => {
+            return await get_all_cards(jwtToken, roomId);
+        };
+        cardsSideEffect().then(
+            (d) => {
+                setCards(d)
+            }
+        );
+    }, [jwtToken, navigate, roomId, setCards]);
 
     const handleClick = (event) => {
         setValue(event.target.innerText);
@@ -280,19 +165,18 @@ const PlayGame = () => {
 
     async function handleCardClick(id) {
         const updatedCards = cards.map((card) => {
-          if (card.index === id && !card.isFlipped) {
+          if (card.sequence === id && !card.is_revealed) {
             return {
               ...card,
-              isFlipped: true,
+              is_revealed: true,
             };
           }
           return card;
         });
         setCards(updatedCards);
 
-       const card_detail = await reveal_card(jwtToken, id, roomId);
-       console.log(card_detail);
-
+       const cardDetail = await reveal_card(jwtToken, id, roomId);
+            addTextToCard(cardDetail.id, cardDetail.text);
       }
 
     return (
@@ -449,12 +333,12 @@ const PlayGame = () => {
                         {cards.map((card, index) => (
                             <div
                             key={index}
-                            className={`card${card.isFlipped ? " flipped" : ""}`}
-                            onClick={() => handleCardClick(card.index)}
+                            className={`card${card.is_revealed ? " flipped" : ""}`}
+                            onClick={() => handleCardClick(card.sequence)}
                         >
                             <div id={index.toString()} className="card-front"></div>
-                            <div id={index.toString()} className="card-back">
-                                <p className="flip-text">Random</p>
+                            <div id={index.toString()} className="card-back" style={{ backgroundColor: card.color === "Blue"? "cadetblue" : "indianred" }}>
+                                <p className="flip-text">{card && card['text'] ? card['text'] : 'Loading...'}</p>
                             </div>
                         </div>
                         ))}

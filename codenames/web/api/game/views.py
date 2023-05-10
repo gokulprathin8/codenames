@@ -104,3 +104,18 @@ async def reveal_card(
     card.is_revealed = True
     await card.update()
     return card
+
+
+@router.get("/get_all_cards")
+async def get_all_cards(
+    room_id: int,
+    token=Depends(oauth2_scheme)  # TODO: check user
+):
+    card = await Cards.objects.filter(room_name=room_id).values(
+        ['id', 'color', 'sequence', 'is_revealed', 'text']
+    )
+    for c in card:
+        if not c['is_revealed']:
+            del c['text']  # delete text for cards which are not revealed
+    return card
+
