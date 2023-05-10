@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import playGameStyles from "../styles/playgame.room.css";
 import playerImage from "../../public/images/spyware.png";
 import Popup from "reactjs-popup";
+import useAuthStore from "../store/auth";
+import {useNavigate} from "@remix-run/react";
 
 const PlayGame = () => {
+
+    const navigate = useNavigate();
+
     const [rules, setRules] = useState(false);
     const [value, setValue] = useState("");
+
+    const jwtToken = useAuthStore((state) => state.jwtToken);
+
+    useEffect(() => {
+            if (!jwtToken) {
+            console.log('User not authenticated. Redirect to Authentication page.')
+            navigate('/auth/login');
+        }
+    }, [jwtToken, navigate])
+
 
     const handleClick = (event) => {
         setValue(event.target.innerText);

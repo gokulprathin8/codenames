@@ -42,7 +42,7 @@ async def create_game_room(create_game: GameRoomBody, token=Depends(oauth2_schem
     cards.append(Cards(room_name=room.id, color=Teams.Black, text=generate_words(1)[0],
                        game=game_room.id))  # for the black card
     await Cards.objects.bulk_create(cards)
-    return {'status': 'success'}
+    return {'status': 'success', 'room_id': room.id}
 
 
 @router.delete("/delete")

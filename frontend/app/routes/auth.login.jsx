@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import {Link} from "@remix-run/react";
+import {Link, useNavigate} from "@remix-run/react";
 import {useForm} from "react-hook-form";
 import useAuthStore, {authenticateUser} from "../store/auth";
 
@@ -80,6 +80,7 @@ const LoginCredContainer = styled.div`
 
 export default function AuthLogin() {
 
+    const navigate = useNavigate();
     const setJWT = useAuthStore((state) => state.setJWT);
 
     const {
@@ -91,6 +92,10 @@ export default function AuthLogin() {
     async function handleFormSubmit(e) {
         const userToken = await authenticateUser(e.email, e.password);
         setJWT(userToken);
+
+        if ('access_token' in userToken) {
+            navigate('/gamepage');
+        }
     }
 
     return (

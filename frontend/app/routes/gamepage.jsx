@@ -1,12 +1,15 @@
 import Popup from "reactjs-popup";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import gameStyles from "../styles/gamepage.room.css";
 import playerImage from "../../public/images/spyware.png";
 import codenamesCover from "../../public/images/codenames-cover.jpg";
 import useAuthStore from "../store/auth";
 import {createRoom} from "../store/room";
+import {useNavigate} from "@remix-run/react";
 
 const GamePage = () => {
+
+    const navigate = useNavigate();
 
     const jwtToken = useAuthStore((state) => state.jwtToken);
     const [rules, setRules] = useState(false);
@@ -100,9 +103,23 @@ const GamePage = () => {
     };
 
     async function onCreateRoom() {
-        // check if room name is empty
-        await createRoom(jwtToken, roomName);
+        if (!jwtToken) {
+            console.log('comes here');
+            navigate('/auth/login');
+        }
+        else {
+            //TODO: check if room name is empty
+            await createRoom(jwtToken, roomName);
+        }
+
     }
+
+    useEffect(() => {
+            if (!jwtToken) {
+            console.log('User not authenticated. Redirect to Authentication page.')
+            navigate('/auth/login');
+        }
+    }, [jwtToken, navigate])
 
 
 
@@ -359,7 +376,7 @@ const GamePage = () => {
                                         <div className="our-team">
                                             <p id="tittle-team">Our Team</p>
                                         </div>
-                                        <p>Gokul Prathin Asmani (G01397737)</p>
+                                        <p>Gokul Prathin Asamani (G01397737)</p>
                                         <p>Sripath Cherukuri (G01395231)</p>
                                     </div>
                                 </div>
