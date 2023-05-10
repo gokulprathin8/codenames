@@ -630,3 +630,21 @@ div * {
 div * {
     font-size: 12px;
 }
+
+.spin {
+    background: rgb(84, 146, 122);
+    background: radial-gradient(
+        circle,
+        rgba(84, 146, 122, 1) 0%,
+        rgba(0, 0, 0, 1) 100%
+    );
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
