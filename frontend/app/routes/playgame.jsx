@@ -11,7 +11,7 @@ const PlayGame = () => {
     const navigate = useNavigate();
     const cards = useCardsStore((state) => state.cardData);
     const setCards = useCardsStore((state) => state.setCardData);
-    const addTextToCard = useCardsStore((state) => state.addTextToCard);
+    const addColorToCard = useCardsStore((state) => state.addColorToCard);
 
     const [rules, setRules] = useState(false);
     const [value, setValue] = useState("");
@@ -176,7 +176,7 @@ const PlayGame = () => {
         setCards(updatedCards);
 
        const cardDetail = await reveal_card(jwtToken, id, roomId);
-            addTextToCard(cardDetail.id, cardDetail.text);
+            addColorToCard(cardDetail.id, cardDetail.color);
       }
 
     return (
@@ -336,7 +336,12 @@ const PlayGame = () => {
                             className={`card${card.is_revealed ? " flipped" : ""}`}
                             onClick={() => handleCardClick(card.sequence)}
                         >
-                            <div id={index.toString()} className="card-front"></div>
+                            <div id={index.toString()} className="card-front">
+                                <div className="preflip-text">
+                                    <p className="flip-text">{card && card['text'] ? card['text'] : 'Loading...'}</p>
+                                </div>
+
+                            </div>
                             <div id={index.toString()} className="card-back" style={{ backgroundColor: card.color === "Blue"? "cadetblue" : card.color === "Red" ? "indianred": "gray" }}>
                                 <p className="flip-text">{card && card['text'] ? card['text'] : 'Loading...'}</p>
                             </div>

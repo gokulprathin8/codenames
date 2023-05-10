@@ -116,6 +116,6 @@ async def get_all_cards(
     )
     for c in card:
         if not c['is_revealed']:
-            del c['text']  # delete text for cards which are not revealed
+            del c['color']  # delete color for cards which are not revealed
     return card
 

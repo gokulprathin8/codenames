@@ -28,13 +28,13 @@ export async function get_all_cards(user, roomId) {
 const cardsStore = (set) => ({
     cardData: [],
     setCardData: (data) => set({cardData: _.sortBy(data, 'sequence')}),
-    addTextToCard: (id, text) =>
+    addColorToCard: (id, color) =>
         set((state) => {
           const updatedCardData = state.cardData.map((card) => {
             if (card.id === id) {
               return {
                 ...card,
-                text,
+                color,
               };
             }
             return card;
