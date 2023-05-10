@@ -91,3 +91,16 @@ async def create_log(
     )
     return log
 
+
+@router.get("/reveal_card")
+async def reveal_card(
+    index: int,
+    room_id: int,
+    token=Depends(oauth2_scheme)
+):
+    await User.objects.get(username=decode_access_token(token))
+    # TODO: add user check, if user is in room
+    card = await Cards.objects.get(sequence=index, room_name=room_id)
+    card.is_revealed = True
+    await card.update()
+    return card
