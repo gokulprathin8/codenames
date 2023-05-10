@@ -6,6 +6,7 @@ import codenamesCover from "../../public/images/codenames-cover.jpg";
 import useAuthStore from "../store/auth";
 import useRoomStore, {createRoom} from "../store/room";
 import {useNavigate} from "@remix-run/react";
+import { Spinner } from '@chakra-ui/react';
 
 const GamePage = () => {
 
@@ -15,6 +16,7 @@ const GamePage = () => {
     const setRoomId = useRoomStore((state) => state.setRoomId);
     const [rules, setRules] = useState(false);
     const [roomName, setRoomName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     /**
      * ! install react-js popup to run
@@ -109,13 +111,15 @@ const GamePage = () => {
             navigate('/auth/login');
         }
         else {
-            //TODO: check if room name is empty
             createRoom(jwtToken, roomName).then(
                 (data) => {
                     setRoomId(data['room_id']);
                     navigate('/playgame');
                 }
             )
+            setIsLoading(true);
+            await createRoom(jwtToken, roomName);
+            setIsLoading(false);
         }
 
     }
@@ -131,6 +135,13 @@ const GamePage = () => {
 
     return (
         <div>
+                  {isLoading && (
+        <div className="spin" style={{display:"flex", flexDirection: "column"}}>
+          <Spinner  thickness='4px' speed='0.65s' emptyColor='gray.200' color='blue.500' size='xl' width={40} height={40}/>
+        
+          <p style={{paddingTop: "20px", marginLeft: "5px"}}>Loading...</p>
+        </div>
+      )}
             <div className="top-container">
                 <Playerstip />
                 <Playernametip />
@@ -373,7 +384,8 @@ const GamePage = () => {
                                         id="text-input-room"
                                         onChange={handleInputChange}
                                     />
-                                    <button className="btn-room-create" onClick={onCreateRoom}>Create</button>
+                                    <button className="btn-room-create" onClick={onCreateRoom}>Create
+                                    </button>
                                 </div>
                             </div>
                             <div className="team">

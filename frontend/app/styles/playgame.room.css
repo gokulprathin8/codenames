@@ -52,7 +52,15 @@
     border-radius: 3%;
     color: white;
     text-align: center;
+    justify-content: center;
     transform: rotateY(180deg);
+}
+
+.flip-text {
+    font-size: large;
+    text-align: center;
+    margin-top:25%;
+    padding: 8px;
 }
 
 /* Dynamic background color for flip-card-back */
