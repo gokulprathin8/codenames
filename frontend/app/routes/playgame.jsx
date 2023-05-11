@@ -467,7 +467,10 @@ const PlayGame = () => {
                         ></input>
                         <Cluetip />
                         <button className="btn-below">Give Clue</button>
-                    </div> : null
+                            </div> :
+                                <button
+                                    style={{ cursor: "pointer", color: "white",borderRadius: "20px",border: "1px solid white", padding: "15px",backgroundColor: "red", width: "inherit", textAlign: "center", fontSize: "medium"  }}>End Turn</button>
+
                     }
 
                 </div>

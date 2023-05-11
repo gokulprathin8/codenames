@@ -1,15 +1,15 @@
 """empty message
 
-Revision ID: f87f828503fa
+Revision ID: 44b46d241702
 Revises: 
-Create Date: 2023-05-10 09:29:36.173420
+Create Date: 2023-05-11 03:28:29.103822
 
 """
 import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "f87f828503fa"
+revision = "44b46d241702"
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -54,6 +54,8 @@ def upgrade() -> None:
         sa.Column("turn", sa.String(length=24), nullable=False),
         sa.Column("room", sa.Integer(), nullable=True),
         sa.Column("host", sa.Integer(), nullable=True),
+        sa.Column("created_at", sa.DateTime(), nullable=True),
+        sa.Column("updated_at", sa.DateTime(), nullable=True),
         sa.ForeignKeyConstraint(["host"], ["users.id"], name="fk_game_users_id_host"),
         sa.ForeignKeyConstraint(["room"], ["rooms.id"], name="fk_game_rooms_id_room"),
         sa.PrimaryKeyConstraint("id"),
@@ -119,6 +121,10 @@ def upgrade() -> None:
         sa.Column("generated_by", sa.Integer(), nullable=True),
         sa.Column("created_at", sa.DateTime(), nullable=True),
         sa.Column("updated_at", sa.DateTime(), nullable=True),
+        sa.Column("card", sa.Integer(), nullable=True),
+        sa.ForeignKeyConstraint(
+            ["card"], ["cards.id"], name="fk_game_log_cards_id_card"
+        ),
         sa.ForeignKeyConstraint(["game"], ["game.id"], name="fk_game_log_game_id_game"),
         sa.ForeignKeyConstraint(
             ["generated_by"], ["users.id"], name="fk_game_log_users_id_generated_by"

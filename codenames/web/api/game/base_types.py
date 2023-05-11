@@ -19,7 +19,7 @@ class PlayerTypeIn(BaseModel):
     team_color: Teams
 
 
-class SpymasterResponse:
+class SpymasterResponse(BaseModel):
     room_id: int
     game_id: int
     text: str

@@ -10,6 +10,7 @@ from codenames.web.api.auth.user import oauth2_scheme
 from codenames.web.api.game.base_types import (GameRoomBody, CreateLog, PlayerTypeIn,
                                                SpymasterResponse)
 from codenames.web.api.utils.auth import decode_access_token
+from codenames.web.api.utils.game import player_sequence_generator
 from codenames.web.api.utils.word_generator import generate_words
 
 router = APIRouter()
@@ -114,7 +115,8 @@ async def reveal_card(
     await GameLog(
         text="",
         identifier=str(uuid.uuid4().hex),
-        generated_by=current_user
+        generated_by=current_user,
+        card=card.id
     )
 
     return {'message': 'no matching card found'}
@@ -171,6 +173,13 @@ async def get_response_from_spymaster(
         identifier=str(uuid.uuid4().hex),
         generated_by=current_user.id
     ).save()
-
+    last_game_action = await Game.objects.filter(room=spymaster_resp.room_id).order_by("-id").limit(1).get()
+    next_move = player_sequence_generator(last_game_action)
+    await Game(
+        status=next_move,
+        turn=next_move.split(" ")[0].capitalize(),
+        room=spymaster_resp.room_id,
+        host=current_user.id,
+    ).save()
 
 
