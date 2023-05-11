@@ -312,18 +312,19 @@ const GamePage = () => {
                                     alt="codenames-image"
                                 />
                                 <div className="inner-description">
-                                    Lorem Ipsum is simply dummy text of the printing and
-                                    typesetting industry. Lorem Ipsum has been the
-                                    industry's standard dummy text ever since the 1500s,
-                                    when an unknown printer took a galley of type and
-                                    scrambled it to make a type specimen book. It has
-                                    survived not only five centuries, but also the leap
-                                    into electronic typesetting, remaining essentially
-                                    unchanged. It was popularised in the 1960s with the
-                                    release of Letraset sheets containing Lorem Ipsum
-                                    passages, and more recently with desktop publishing
-                                    software like Aldus PageMaker including versions of
-                                    Lorem Ipsum.
+                                    Codenames is a game for 4+ players.
+                                    <br />
+                                    <br />
+                                    The teams are evenly divided into two teams red and blue,
+                                    Choose one player per team to act as a Spymaster. Remaining players
+                                    join as operatives. Spymasters give one-word clues to their team operatives,
+                                    trying to associate with as many of the teams word on the card deck before.
+                                    <br />
+                                    <br />
+                                    <b>The team who first guesses all their words win.</b>
+                                    <br />
+                                    <br />
+                                    Check rules by clicking the button on top of the page for more information.
                                 </div>
                             </div>
                         </div>
