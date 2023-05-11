@@ -56,6 +56,10 @@ class Game(ormar.Model):
     room: int = ormar.ForeignKey(Room)
     host: int = ormar.ForeignKey(User, related_name="game_host", null=True)
 
+    created_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now)
+    updated_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now,
+                                                   onupdate=datetime.datetime.now)
+
 
 class Cards(ormar.Model):
     class Meta(BaseMeta):
@@ -101,6 +105,7 @@ class GameLog(ormar.Model):
     created_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now)
     updated_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now,
                                                    onupdate=datetime.datetime.now)
+    card: int = ormar.ForeignKey(Cards, related_name="card_log", nullable=True)
 
     async def save(self, **kwargs):
         if self.pk:

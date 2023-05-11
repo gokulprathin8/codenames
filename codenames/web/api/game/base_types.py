@@ -17,3 +17,10 @@ class PlayerTypeIn(BaseModel):
     spymaster: bool
     operative: bool
     team_color: Teams
+
+
+class SpymasterResponse:
+    room_id: int
+    game_id: int
+    text: str
+    team: Teams

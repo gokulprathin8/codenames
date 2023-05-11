@@ -427,6 +427,9 @@ const PlayGame = () => {
                         </div>
                         <button className="red-button" onClick={handlePlayerJoin}>Join as Operative</button>
                         <br></br>
+                        {
+                            <p>{redSpyMasterEmail}</p>
+                        }
                         <button className="red-button" onClick={handlePlayerJoin}>Join as Spymaster</button>
                     </div>
                 </div>
