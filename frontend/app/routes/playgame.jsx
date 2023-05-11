@@ -33,6 +33,13 @@ const PlayGame = () => {
     const jwtToken = useAuthStore((state) => state.jwtToken);
     const roomId = useRoomStore((state) => state.roomId);
     const userProfileData = useAuthStore((state) => state.userProfile);
+    let spyMasterMove = (gameState && gameState[0]['me'][0]['spymaster']) && (gameState && gameState[0]['state'][0]['status'].split(" ")[1] === "SPY") && // check if spymaster is allowed to play
+                        (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn'])  // check if the correct team is playing
+    let operativeMove = (gameState && gameState[0]['me'][0]['operative']) && (gameState && gameState[0]['state'][0]['status'].split(" ")[1] === "OPERATIVE") && // check if spymaster is allowed to play
+                        (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn'])  // check if the correct team is playing
+
+
+    {console.log(gameState && gameState[0]['state'][0]['status'].split(" ")[1] === "SPY")}
 
   useEffect(() => {
         async function fetchGameState() {
@@ -469,22 +476,24 @@ const PlayGame = () => {
                         </div>
                         ))}
                     </div>
+
                     {
-                        isSpy
+                        spyMasterMove
                             ?
                             <div className="below-container">
-                        <input
-                            type="text"
-                            id="text-input"
-                            placeholder=">>Give clue to your team"
-                            onChange={handleSpymasterInput}
-                        ></input>
-                        <Cluetip />
-                        <button className="btn-below" onClick={handleClueButton}>Give Clue</button>
+                                <input
+                                    type="text"
+                                    id="text-input"
+                                    placeholder=">>Give clue to your team"
+                                    onChange={handleSpymasterInput}
+                                ></input>
+                                <Cluetip />
+                                <button className="btn-below" onClick={handleClueButton}>Give Clue</button>
                             </div> :
-                                <button onClick={handleClueButton}
+                        operativeMove ?
+                                    <button onClick={handleClueButton}
                                     style={{ cursor: "pointer", color: "white",borderRadius: "20px",border: "1px solid white", padding: "15px",backgroundColor: "red", width: "inherit", textAlign: "center", fontSize: "medium"  }}>End Turn</button>
-
+                        : null
                     }
 
                 </div>

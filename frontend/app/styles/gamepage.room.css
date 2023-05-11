@@ -381,7 +381,7 @@ div * {
     margin: 0% 1% 0% 1%;
     text-align: center;
     background-image: linear-gradient(to right, #ffd93d 0%, #ffd93d 51%, #e63870 100%);
-    text-transform: uppercase;
+    text-transform: capitalize;
     transition: 0.5s;
     background-size: 200% auto;
 }

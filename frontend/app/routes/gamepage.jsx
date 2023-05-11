@@ -81,6 +81,10 @@ const GamePage = () => {
         </Popup>
     );
 
+    function handleClick() {
+        // TODO: Implement the on click function
+    }
+
     /**
      * ! the below code is to show a tooltip when reset button is clicked
      */
