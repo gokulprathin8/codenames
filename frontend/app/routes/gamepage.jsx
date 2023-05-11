@@ -142,7 +142,7 @@ const GamePage = () => {
                 })
             }
 
-    }, [jwtToken, navigate, setUserProfile, userProfile]);
+    }, [jwtToken, navigate, setUserProfile]);
 
 
 

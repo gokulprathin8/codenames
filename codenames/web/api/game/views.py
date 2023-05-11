@@ -184,3 +184,13 @@ async def get_response_from_spymaster(
     ).save()
 
 
+@router.get("/spymaster_cards")
+async def show_cards_spymaster(
+    room_id: int,
+    game_id: int,
+    token=Depends(oauth2_scheme)
+):
+    current_user = await User.objects.get(username=decode_access_token(token))
+    spy_master = await Player.objects.get(room=room_id, user=current_user.id)
+    if spy_master.spymaster:
+        return await Cards.objects.filter(game=game_id).all()
