@@ -1,3 +1,4 @@
+import pprint
 import random
 import uuid
 from fastapi import APIRouter, Depends, Response, HTTPException
@@ -174,7 +175,7 @@ async def get_response_from_spymaster(
         generated_by=current_user.id
     ).save()
     last_game_action = await Game.objects.filter(room=spymaster_resp.room_id).order_by("-id").limit(1).get()
-    next_move = player_sequence_generator(last_game_action)
+    next_move = player_sequence_generator(last_game_action.status)
     await Game(
         status=next_move,
         turn=next_move.split(" ")[0].capitalize(),

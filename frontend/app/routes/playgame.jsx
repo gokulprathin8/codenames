@@ -8,6 +8,7 @@ import useCardsStore, {get_all_cards, reveal_card} from "../store/card";
 import useRoomStore from "../store/room";
 import {joinTeam} from "../store/playerType";
 import {SERVER_URL} from "../constants";
+import {spymasterClue} from "../store/game";
 
 const PlayGame = () => {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ const PlayGame = () => {
     const [redOperatives, setRedOperatives] = useState([]);
     const [blueOperatives, setBlueOperatives] = useState([]);
     const [isSpy, setIsSpy] = useState(false);
+    const [spymasterClueInput, setSpymasterClueInput] = useState("");
 
     const [redSpyMasterEmail, setRedSpyMasterEmail] = useState("");
     const [blueSpyMasterEmail, setBlueSpyMasterEmail] = useState("");
@@ -34,7 +36,9 @@ const PlayGame = () => {
 
   useEffect(() => {
         async function fetchGameState() {
-          const headers = {};
+          const headers = {
+              Authorization: 'Bearer ' + jwtToken
+          };
           if (etag) {
             headers["If-None-Match"] = etag;
           }
@@ -236,6 +240,10 @@ const PlayGame = () => {
             addColorToCard(cardDetail.id, cardDetail.color);
       }
 
+  function handleSpymasterInput(e) {
+        setSpymasterClueInput(e.target.value);
+  }
+
 
   useEffect(() => {
 
@@ -276,6 +284,11 @@ const PlayGame = () => {
     }
 
 
+    async function handleClueButton() {
+        let team = gameState[0]['state'][0]['turn'];
+        let gameId = gameState[0]['state'][0]['id'];
+        await spymasterClue(spymasterClueInput, roomId, team, jwtToken, gameId);
+    }
 
     return (
         <div>
@@ -464,9 +477,10 @@ const PlayGame = () => {
                             type="text"
                             id="text-input"
                             placeholder=">>Give clue to your team"
+                            onChange={handleSpymasterInput}
                         ></input>
                         <Cluetip />
-                        <button className="btn-below">Give Clue</button>
+                        <button className="btn-below" onClick={handleClueButton}>Give Clue</button>
                             </div> :
                                 <button
                                     style={{ cursor: "pointer", color: "white",borderRadius: "20px",border: "1px solid white", padding: "15px",backgroundColor: "red", width: "inherit", textAlign: "center", fontSize: "medium"  }}>End Turn</button>
@@ -495,7 +509,6 @@ const PlayGame = () => {
                                     {t}
                                 </p>
                             )) : <p style={{ padding: "4px", color: "white" }}> No Players Joined this team yet. </p>}
-
                         </div>
                         <button className="blue-button" onClick={handlePlayerJoin}>Join as Operative</button>
                         <br></br>

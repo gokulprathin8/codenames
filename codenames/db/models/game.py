@@ -114,7 +114,7 @@ class GameLog(ormar.Model):
             self.created_at = datetime.datetime.now()
 
         await super().save(**kwargs)
-        await self.trigger_websockets()
+        # await self.trigger_websockets()
 
     async def trigger_websockets(self):
         async with websockets.connect('ws://localhost:8000') as websocket:
