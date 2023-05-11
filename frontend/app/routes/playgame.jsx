@@ -16,7 +16,7 @@ const PlayGame = () => {
     const [etag, setEtag] = useState(null);
     const [redOperatives, setRedOperatives] = useState([]);
     const [blueOperatives, setBlueOperatives] = useState([]);
-    const [showClueBar, setShowClueBar] = useState(false);
+    const [isSpy, setIsSpy] = useState(false);
 
     const [redSpyMasterEmail, setRedSpyMasterEmail] = useState("");
     const [blueSpyMasterEmail, setBlueSpyMasterEmail] = useState("");
@@ -244,9 +244,9 @@ const PlayGame = () => {
         players.forEach(p => {
             if (p['user__username'] === userProfileData['username']) {
                 if (p['spymaster']) {
-                    setShowClueBar(true);
+                    setIsSpy(true);
                 } else {
-                    setShowClueBar(false);
+                    setIsSpy(false);
                 }
             }
         });
@@ -436,7 +436,7 @@ const PlayGame = () => {
                         {cards.map((card, index) => (
                             <div
                             key={index}
-                            className={`card${card.is_revealed ? " flipped" : ""}`}
+                            className={`card${card.is_revealed || isSpy? " flipped" : ""}`}
                             onClick={() => handleCardClick(card.sequence)}
                         >
                             <div id={index.toString()} className="card-front">
@@ -454,7 +454,7 @@ const PlayGame = () => {
                         ))}
                     </div>
                     {
-                        showClueBar
+                        isSpy
                             ?
                             <div className="below-container">
                         <input

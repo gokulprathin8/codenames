@@ -422,6 +422,7 @@ div * {
     padding: 20px;
     color: black;
     text-align: justify;
+    font-size: 14px;
 }
 
 .container-game-menu {
