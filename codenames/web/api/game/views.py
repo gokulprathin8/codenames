@@ -7,7 +7,8 @@ from codenames.db.models.game import (Game, GameStatus, Teams, Room, Cards, Game
                                       Player)
 from codenames.db.models.user import User
 from codenames.web.api.auth.user import oauth2_scheme
-from codenames.web.api.game.base_types import GameRoomBody, CreateLog, PlayerTypeIn
+from codenames.web.api.game.base_types import (GameRoomBody, CreateLog, PlayerTypeIn,
+                                               SpymasterResponse)
 from codenames.web.api.utils.auth import decode_access_token
 from codenames.web.api.utils.word_generator import generate_words
 
@@ -100,7 +101,7 @@ async def reveal_card(
     response: Response,
     token=Depends(oauth2_scheme)
 ):
-    await User.objects.get(username=decode_access_token(token))
+    current_user = await User.objects.get(username=decode_access_token(token))
     # TODO: add user check, if user is in room
     card = await Cards.objects.get_or_none(sequence=index, room_name=room_id)
     if card:
@@ -108,6 +109,14 @@ async def reveal_card(
         await card.update()
         return card
     response.status_code = status.HTTP_404_NOT_FOUND
+
+    # log gameplay
+    await GameLog(
+        text="",
+        identifier=str(uuid.uuid4().hex),
+        generated_by=current_user
+    )
+
     return {'message': 'no matching card found'}
 
 
@@ -148,4 +157,20 @@ async def player_type(
             user=current_user.id
         ).save()
         return new_player
+
+
+@router.post("/spymaster_response")
+async def get_response_from_spymaster(
+    spymaster_resp: SpymasterResponse,
+    token=Depends(oauth2_scheme)
+):
+    current_user = await User.objects.get(username=decode_access_token(token))
+    await GameLog(
+        game=spymaster_resp.game_id,
+        text=spymaster_resp.text,
+        identifier=str(uuid.uuid4().hex),
+        generated_by=current_user.id
+    ).save()
+
+
 
