@@ -1,8 +1,9 @@
-import pprint
 import random
 import uuid
-from fastapi import APIRouter, Depends, Response, HTTPException
+from fastapi import APIRouter, Depends, Response, HTTPException, Request
 from starlette import status
+from starlette.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 from codenames.db.models.game import (Game, GameStatus, Teams, Room, Cards, GameLog,
                                       Player)
@@ -15,7 +16,7 @@ from codenames.web.api.utils.game import player_sequence_generator
 from codenames.web.api.utils.word_generator import generate_words
 
 router = APIRouter()
-
+templates = Jinja2Templates(directory="templates")
 
 @router.get("/all")
 async def get_all_rooms():
@@ -192,3 +193,10 @@ async def show_cards_spymaster(
     spy_master = await Player.objects.get(room=room_id, user=current_user.id)
     if spy_master.spymaster:
         return await Cards.objects.filter(game=game_id).all()
+
+
+@router.get("/download_audit", response_class=HTMLResponse)
+async def download_audit(request: Request, room_id: int):
+    template_context = {"request": request, "room_id": room_id}
+    return templates.TemplateResponse("audit/audit_log_new.html",
+                                      template_context)

@@ -3,6 +3,7 @@ from importlib import metadata
 from fastapi import FastAPI
 from fastapi.responses import UJSONResponse
 from starlette.middleware.cors import CORSMiddleware
+from starlette.staticfiles import StaticFiles
 
 from codenames.logging import configure_logging
 from codenames.web.api.router import api_router
@@ -14,7 +15,7 @@ def get_app() -> FastAPI:
     Get FastAPI application.
 
     This is the main constructor of an application.
-
+Fsta
     :return: application.
     """
     configure_logging()
@@ -27,6 +28,7 @@ def get_app() -> FastAPI:
         openapi_url="/api/openapi.json",
         default_response_class=UJSONResponse,
     )
+    app.mount("/static", StaticFiles(directory="codenames/static"), name="static")
 
     origins = [
         "http://localhost",
