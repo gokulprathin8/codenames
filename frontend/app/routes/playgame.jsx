@@ -469,7 +469,7 @@ const PlayGame = () => {
                 </div>
 
                 <div className="center">
-                    <div className="cards-container-5-by-5">
+                    <div className="cards-container-5-by-5" style={ gameState && gameState && gameState[0]['me'][0]['spymaster'] ? {pointerEvents: "none"} : null }>
                         {cards.map((card, index) => (
                             <div
                                 key={index}
