@@ -14,7 +14,8 @@ router = APIRouter()
 @router.get("/state")
 async def get_game_state(room_id: int,
                          if_none_match: Optional[str] = Header(None),
-                         token=Depends(oauth2_scheme)):
+                         token=Depends(oauth2_scheme),
+                         spymaster: bool = False):
     current_user = await User.objects.get(username=decode_access_token(token))
     players = await Player.objects.select_related('user').filter(room=room_id).values(
         ['id', 'user__id', 'user__username', 'spymaster', 'operative', 'team_color']
@@ -38,10 +39,11 @@ async def get_game_state(room_id: int,
         ['id', 'user__id', 'user__username', 'spymaster', 'operative', 'team_color']
     )
 
-    # If the ETag has changed, generate a new response
-    for card in cards:
-        if not card['is_revealed']:
-            del card['color']  # delete color for cards which are not revealed
+    if not spymaster:
+        # If the ETag has changed, generate a new response
+        for card in cards:
+            if not card['is_revealed']:
+                del card['color']  # delete color for cards which are not revealed
 
     headers = {'ETag': etag}
     return {'card': cards, 'players': players, 'state': state, 'me': me}, headers

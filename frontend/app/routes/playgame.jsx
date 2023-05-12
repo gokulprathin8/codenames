@@ -38,26 +38,28 @@ const PlayGame = () => {
     let operativeMove = false;
     if (gameState && gameState[0]['me'].length) {
         spyMasterMove = (gameState && gameState[0]['me'][0]['spymaster']) && (gameState && gameState[0]['state'][0]['status'].split(" ")[1] === "SPY") && // check if spymaster is allowed to play
-                        (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn']) ? undefined : false  // check if the correct team is playing
+                        (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn'])  // check if the correct team is playing
         operativeMove = (gameState && gameState[0]['me'][0]['operative']) && (gameState && gameState[0]['state'][0]['status'].split(" ")[1] === "OPERATIVE") && // check if spymaster is allowed to play
-                        (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn']) ? undefined : false // check if the correct team is playing
-
+                        (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn'])  // check if the correct team is playing
     }
-
-
-
-    {console.log(spyMasterMove, operativeMove)}
 
   useEffect(() => {
         async function fetchGameState() {
           const headers = {
               Authorization: 'Bearer ' + jwtToken
           };
+          let serverUrl;
           if (etag) {
             headers["If-None-Match"] = etag;
           }
 
-          const response = await fetch(`${SERVER_URL}poll/state?room_id=${roomId}`, { headers });
+          if (gameState && gameState[0]['me'].length && gameState[0]['me'][0]['spymaster']) {
+              serverUrl = `${SERVER_URL}poll/state?room_id=${roomId}&spymaster=true`
+          } else {
+              serverUrl = `${SERVER_URL}poll/state?room_id=${roomId}&spymaster=false`
+          }
+
+          const response = await fetch(serverUrl, { headers });
           if (response.status === 200) {
             const data = await response.json();
             setGameState(data);
