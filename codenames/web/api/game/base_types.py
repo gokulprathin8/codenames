@@ -24,3 +24,9 @@ class SpymasterResponse(BaseModel):
     game_id: int
     text: str
     team: Teams
+
+
+class RoomWinnerIn(BaseModel):
+    room_id: int
+    game_id: int
+    winner: Teams

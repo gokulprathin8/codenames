@@ -1,0 +1,50 @@
+<html lang="en-US">
+    <title>Audit Log</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+
+        tr:nth-child(even) {
+          background-color: rgba(150, 212, 212, 0.4);
+        }
+
+        th:nth-child(even),td:nth-child(even) {
+          background-color: rgba(150, 212, 212, 0.4);
+        }
+    </style>
+    <body>
+        <h1 style="text-align: center">Audit for Game Room: #{{ game_logs[0]['game'] }}</h1>
+        <hr />
+        <table style="width:100%">
+  <tr>
+    <th>Game Id</th>
+    <th>Text</th>
+      <th>Identifier</th>
+      <th>Created At</th>
+      <th>Updated At</th>
+      <th>Room Id</th>
+      <th>Game Status</th>
+      <th>Game Turn</th>
+      <th>Game Host</th>
+      <th>Game Created At</th>
+  </tr>
+  {% for log in game_logs %}
+      <tr>
+        <td>{{ log['game'] }}</td>
+        <td>{{ log['text'] }}</td>
+        <td>{{ log['identifier'] }}</td>
+        <td>{{ log['created_at'] }}</td>
+        <td>{{ log['updated_at'] }}</td>
+        <td>{{ log['game__id'] }}</td>
+        <td>{{ log['game__status'] }}</td>
+        <td>{{ log['game__turn'] }}</td>
+          <td>{{ log['generated_by__username'] }}</td>
+        <td>{{ log['game__created_at'] }}</td>
+      </tr>
+  {% endfor %}
+
+</table>
+    </body>
+</html>

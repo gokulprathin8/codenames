@@ -1,22 +1,30 @@
+import io
+import json
 import random
 import uuid
+import imgkit
+from pathlib import Path
+
 from fastapi import APIRouter, Depends, Response, HTTPException, Request
 from starlette import status
 from starlette.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 
 from codenames.db.models.game import (Game, GameStatus, Teams, Room, Cards, GameLog,
-                                      Player)
+                                      Player, GameWinner)
 from codenames.db.models.user import User
 from codenames.web.api.auth.user import oauth2_scheme
 from codenames.web.api.game.base_types import (GameRoomBody, CreateLog, PlayerTypeIn,
-                                               SpymasterResponse)
+                                               SpymasterResponse, RoomWinnerIn)
 from codenames.web.api.utils.auth import decode_access_token
 from codenames.web.api.utils.game import player_sequence_generator
 from codenames.web.api.utils.word_generator import generate_words
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
+template_path = str(Path(BASE_DIR, 'templates'))
+templates = Jinja2Templates(directory=template_path)
+
 
 @router.get("/all")
 async def get_all_rooms():
@@ -143,7 +151,7 @@ async def player_type(
 ):
     current_user = await User.objects.get(username=decode_access_token(token))
     existing_player = await Player.objects.get_or_none(room=player.room_id,
-                                               user=current_user.id)
+                                                       user=current_user.id)
     if existing_player:
         existing_player.spymaster = player.spymaster
         existing_player.operative = player.operative
@@ -173,7 +181,8 @@ async def get_response_from_spymaster(
         identifier=str(uuid.uuid4().hex),
         generated_by=current_user.id
     ).save()
-    last_game_action = await Game.objects.filter(room=spymaster_resp.room_id).order_by("-id").limit(1).get()
+    last_game_action = await Game.objects.filter(room=spymaster_resp.room_id).order_by(
+        "-id").limit(1).get()
     next_move = player_sequence_generator(last_game_action.status)
     await Game(
         status=next_move,
@@ -195,8 +204,23 @@ async def show_cards_spymaster(
         return await Cards.objects.filter(game=game_id).all()
 
 
-@router.get("/download_audit", response_class=HTMLResponse)
-async def download_audit(request: Request, room_id: int):
-    template_context = {"request": request, "room_id": room_id}
-    return templates.TemplateResponse("audit/audit_log_new.html",
-                                      template_context)
+@router.get("/view_audit", response_class=HTMLResponse)
+async def download_audit(request: Request, game_id: int):
+    game_logs = await GameLog.objects.select_related(['game', 'generated_by']).filter(
+        game=game_id
+    ).values(
+        ['text', 'identifier', 'game', 'created_at', 'updated_at']
+    )
+    template_context = {"game_logs": game_logs, "request": request}
+    html = templates.TemplateResponse("audit_log.html", template_context).body.decode(
+        'utf-8')
+    return html
+
+
+@router.post("/winner_details")
+async def save_winner_details(winner: RoomWinnerIn):
+    return await GameWinner.objects.create(
+        room=winner.room_id,
+        game=winner.game_id,
+        winner=winner.winner
+    )

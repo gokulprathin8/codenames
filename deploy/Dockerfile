@@ -1,5 +1,8 @@
 FROM python:3.9.6-slim-buster
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wkhtmltopdf \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN pip install poetry==1.3.2
 

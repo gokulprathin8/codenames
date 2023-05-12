@@ -340,14 +340,42 @@ const PlayGame = () => {
         setSpymasterClueInput("");
     }
 
+    async function handleGameWinner() {
+        let winner;
+        if (gameScore && gameScore['Red'] === 12) {
+            winner = 'Red'
+        } else {
+            winner = 'Blue'
+        }
+        await fetch(`${SERVER_URL}game/winner_details`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + jwtToken
+            },
+            body: JSON.stringify({
+                'room_id': roomId,
+                'game_id': gameState[0]['state'][0]['id'],
+                'winner': winner
+            })
+        }).then(r => {
+            navigate('/gamepage');
+        });
+    }
+
     return (
         <div>
-            {/*<div style={{ position: "absolute", zIndex: "10", backgroundColor: "white", width: "30%", height: "40%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", borderRadius: "15px" }}>*/}
-            {/*    <p style={{ textAlign: "center", paddingTop: "25%", fontSize: "xxx-large"}}> 🎉</p>*/}
-            {/*    <h1 style={{ textAlign: "center", fontSize: "xxx-large"}}>Team Blue Won!</h1>*/}
+            {
+                gameScore && (gameScore['Red'] === 12 || gameScore['Blue'] === 12) ?
+                <div style={{ position: "absolute", zIndex: "10", backgroundColor: "white", width: "30%", height: "40%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", borderRadius: "15px" }}>
+                    <p style={{ textAlign: "center", paddingTop: "25%", fontSize: "xxx-large"}}> 🎉</p>
+                    <h1 style={{ textAlign: "center", fontSize: "xxx-large"}}>Team Blue Won!</h1>
+                    <div style={{  display: "flex", flexDirection: "row"}}>
+                        <button onClick={handleGameWinner} style={{ marginTop: "30px", marginLeft: "45%", padding: "10px", border: "1px solid red", borderRadius: "10px", backgroundColor: "white", cursor: "pointer" }}>Close</button>
+                    </div>
+                </div> : null
+            }
 
-            {/*    <button style={{ marginTop: "50px", marginLeft: "45%", padding: "10px", border: "1px solid red", borderRadius: "10px", backgroundColor: "white", cursor: "pointer" }}>CLOSE</button>*/}
-            {/*</div>*/}
 
             <div className="top-container">
                 <Playerstip />

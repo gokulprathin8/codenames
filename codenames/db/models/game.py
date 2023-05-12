@@ -61,6 +61,22 @@ class Game(ormar.Model):
                                                    onupdate=datetime.datetime.now)
 
 
+class GameWinner(ormar.Model):
+    class Meta(BaseMeta):
+        tablename = "game_winner"
+
+    id: int = ormar.Integer(primary_key=True)
+    room: int = ormar.ForeignKey(Room)
+    game: int = ormar.ForeignKey(Game)
+    winner: str = ormar.String(
+        choices=Teams,
+        max_length=255
+    )
+    created_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now)
+    updated_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now,
+                                                   onupdate=datetime.datetime.now)
+
+
 class Cards(ormar.Model):
     class Meta(BaseMeta):
         tablename = "cards"
@@ -105,7 +121,7 @@ class GameLog(ormar.Model):
     created_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now)
     updated_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now,
                                                    onupdate=datetime.datetime.now)
-    card: int = ormar.ForeignKey(Cards, related_name="card_log", nullable=True)
+    card: int = ormar.ForeignKey(Cards, nullable=True)
 
     async def save(self, **kwargs):
         if self.pk:
@@ -116,23 +132,6 @@ class GameLog(ormar.Model):
         await super().save(**kwargs)
         # await self.trigger_websockets()
 
-    async def trigger_websockets(self):
-        async with websockets.connect('ws://localhost:8000') as websocket:
-            websockets.add(websocket)
-
-            data = {
-                'event': 'update',
-                'data': {
-                    'id': self.pk,
-                    'game': self.game,
-                    'text': self.text,
-                    'identifier': self.identifier,
-                    'generated_by': self.generated_by,
-                    'created_at': self.created_at.isoformat(),
-                    'updated_at': self.updated_at.isoformat()
-                }
-            }
-            await asyncio.wait([ws.send(json.dumps(data)) for ws in websockets])
 #
 #
 # class Player(ormar.Model):

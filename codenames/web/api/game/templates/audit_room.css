@@ -1,0 +1,91 @@
+.audit {
+    margin: 0% 28% 0% 28%;
+    border-radius: 5px;
+    height: 100vh;
+}
+
+body {
+    text-align: center;overflow: hidden;
+}
+.line {
+    width: 50%;
+    padding: 8px;
+}
+.stats {
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: row;
+    width: inherit;
+    height: 15%;
+    justify-content: space-evenly;
+    border-radius: 8px;
+}
+
+.left{
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.llist li{
+    list-style-type: none;
+}
+
+.rlist li{
+    list-style-type: none;
+}
+
+.show_audit {
+    border-radius: 5px;
+    background-color: whitesmoke;
+    padding: 8px;
+    height: 100%;
+    overflow: scroll;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 45%;
+    height: 10%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 12px;
+    margin-bottom: 5%;
+    background-color:aquamarine;
+  }
+
+  .card img {
+    width: 50%;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+
+  .card .text {
+    width: 50%;
+  }
+
+  .card h2 {
+    margin-top: 0;
+    font-size: 1.5em;
+  }
+
+  .card p {
+    margin-bottom: 0;
+    font-size: 1.2em;
+    line-height: 1.5;
+  }
+
+  #toRight {
+    float: right;
+    background-color: lightcoral;
+  }
+
+
+
+
