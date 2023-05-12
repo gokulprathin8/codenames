@@ -7,6 +7,7 @@ import useAuthStore, {userProfile} from "../store/auth";
 import useRoomStore, {createRoom} from "../store/room";
 import {useNavigate} from "@remix-run/react";
 import { Spinner } from '@chakra-ui/react';
+import {SERVER_URL} from "../constants";
 
 const GamePage = () => {
 
@@ -19,6 +20,8 @@ const GamePage = () => {
     const [rules, setRules] = useState(false);
     const [roomName, setRoomName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [allRooms, setAllRooms] = useState([]);
+
 
     /**
      * ! install react-js popup to run
@@ -85,6 +88,14 @@ const GamePage = () => {
         // TODO: Implement the on click function
     }
 
+    function setRoomForJoin(room) {
+        console.log(room);
+    }
+
+    function downloadReport(room) {
+        // TODO: implement
+    }
+
     /**
      * ! the below code is to show a tooltip when reset button is clicked
      */
@@ -148,6 +159,17 @@ const GamePage = () => {
 
     }, [jwtToken, navigate, setUserProfile]);
 
+    useEffect(() => {
+        async function getAllRooms() {
+            const rooms = await fetch(`${SERVER_URL}game/all`, {
+                method: 'GET'
+            });
+            setAllRooms(await rooms.json())
+        }
+
+        const interval = setInterval(getAllRooms, 1000);
+        return () => clearInterval(interval);
+    });
 
 
     return (
@@ -161,7 +183,7 @@ const GamePage = () => {
       )}
             <div className="top-container">
                 <Playerstip />
-                <Playernametip />
+                {/*<Playernametip />*/}
                 <button
                     className="btn-top"
                     id="top-left-btns"
@@ -338,58 +360,26 @@ const GamePage = () => {
                             <div className="rooms">
                                 <div className="rooms-tittle">Game Rooms</div>
                                 <div className="rooms-scroll">
-                                    <div className="room-tab">
-                                        <div className="room-tab-image">
-                                            <img
-                                                src={playerImage}
-                                                width={40}
-                                                height={40}
-                                                alt="player image"
-                                            />
-                                        </div>
-                                        <div className="room-tab-text">
-                                            Gokul's game room
-                                        </div>
-                                    </div>
-                                    <div className="room-tab">
-                                        <div className="room-tab-image">
-                                            <img
-                                                src={playerImage}
-                                                width={40}
-                                                height={40}
-                                                alt="player image"
-                                            />
-                                        </div>
-                                        <div className="room-tab-text">
-                                            Gokul's game room
-                                        </div>
-                                    </div>
-                                    <div className="room-tab">
-                                        <div className="room-tab-image">
-                                            <img
-                                                src={playerImage}
-                                                width={40}
-                                                height={40}
-                                                alt="player image"
-                                            />
-                                        </div>
-                                        <div className="room-tab-text">
-                                            Gokul's game room
-                                        </div>
-                                    </div>
-                                    <div className="room-tab">
-                                        <div className="room-tab-image">
-                                            <img
-                                                src={playerImage}
-                                                width={40}
-                                                height={40}
-                                                alt="player image"
-                                            />
-                                        </div>
-                                        <div className="room-tab-text">
-                                            Gokul's game room
-                                        </div>
-                                    </div>
+                                    {
+                                         allRooms.map((d) =>  (
+                                            <div key={d['share_uuid']}
+                                                 className="room-tab" style={d['is_active'] ? { cursor: 'pointer' } : { cursor: 'pointer', backgroundColor: 'lightgreen' }}
+                                                 onClick={() => d['is_active'] ? setRoomForJoin(d) : downloadReport(d)}
+                                            >
+                                                <div className="room-tab-image">
+                                                    <img
+                                                        src={playerImage}
+                                                        width={40}
+                                                        height={40}
+                                                        alt="player"
+                                                    />
+                                                </div>
+                                                <div className="room-tab-text">
+                                                    <h5>Game Room #{d['name']}</h5>
+                                                </div>
+                                            </div>
+                                         ))
+                                    }
                                 </div>
                             </div>
                         </div>

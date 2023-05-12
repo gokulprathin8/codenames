@@ -9,7 +9,7 @@ import useRoomStore from "../store/room";
 import {joinTeam} from "../store/playerType";
 import {SERVER_URL} from "../constants";
 import {spymasterClue} from "../store/game";
-import {toast} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 
 const PlayGame = () => {
     const navigate = useNavigate();
@@ -276,7 +276,16 @@ const PlayGame = () => {
             console.log(cardDetail);
        if (cardDetail && (cardDetail['color']) !== gameState[0]['me'][0]['team_color']) {
             await handleClueButton();
-            toast("Wow so easy!");
+            toast('🦄 Wow so easy!', {
+                position: "bottom-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
        }
     }
 
@@ -333,6 +342,13 @@ const PlayGame = () => {
 
     return (
         <div>
+            {/*<div style={{ position: "absolute", zIndex: "10", backgroundColor: "white", width: "30%", height: "40%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", borderRadius: "15px" }}>*/}
+            {/*    <p style={{ textAlign: "center", paddingTop: "25%", fontSize: "xxx-large"}}> 🎉</p>*/}
+            {/*    <h1 style={{ textAlign: "center", fontSize: "xxx-large"}}>Team Blue Won!</h1>*/}
+
+            {/*    <button style={{ marginTop: "50px", marginLeft: "45%", padding: "10px", border: "1px solid red", borderRadius: "10px", backgroundColor: "white", cursor: "pointer" }}>CLOSE</button>*/}
+            {/*</div>*/}
+
             <div className="top-container">
                 <Playerstip />
                 <Playernametip />
@@ -490,7 +506,7 @@ const PlayGame = () => {
                 </div>
 
                 <div className="center">
-                    <div className="cards-container-5-by-5" style={ gameState && gameState && gameState[0]['me'][0]['spymaster'] ? {pointerEvents: "none"} : null }>
+                    <div className="cards-container-5-by-5">
                         {cards.map((card, index) => (
                             <div
                                 key={index}
@@ -564,6 +580,7 @@ const PlayGame = () => {
                     </div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };

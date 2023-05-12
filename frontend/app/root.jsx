@@ -8,8 +8,6 @@ import {
 } from "@remix-run/react";
 import 'semantic-ui-css/semantic.min.css';
 import globalStyles from "./styles/global.css";
-import {ToastContainer} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
@@ -26,7 +24,6 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
-        <ToastContainer />
       </body>
     </html>
   );

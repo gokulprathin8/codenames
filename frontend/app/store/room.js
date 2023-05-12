@@ -16,6 +16,15 @@ export async function createRoom(user, roomName) {
     return await room.json();
 }
 
+export async function getAllRooms() {
+    const rooms = await fetch(`${SERVER_URL}game/all`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({})
+    });
+    return rooms.json();
+}
+
 const roomStore = (set) => ({
     roomId: null,
     setRoomId: (id) => set({roomId: id}),

@@ -19,9 +19,7 @@ router = APIRouter()
 
 @router.get("/all")
 async def get_all_rooms():
-    queryset = Game.objects.filter(finished=False)
-    rooms = await queryset.values_list('room_name', flatten=True)
-    return list(rooms)
+    return await Room.objects.all()
 
 
 @router.post("/create")
