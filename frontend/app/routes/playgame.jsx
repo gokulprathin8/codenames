@@ -9,6 +9,7 @@ import useRoomStore from "../store/room";
 import {joinTeam} from "../store/playerType";
 import {SERVER_URL} from "../constants";
 import {spymasterClue} from "../store/game";
+import {toast} from "react-toastify";
 
 const PlayGame = () => {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ const PlayGame = () => {
 
     const [redSpyMasterEmail, setRedSpyMasterEmail] = useState("");
     const [blueSpyMasterEmail, setBlueSpyMasterEmail] = useState("");
+    const [gameScore, setScore] = useState({Red: 0, Blue: 0});
 
     const cards = useCardsStore((state) => state.cardData);
     const setCards = useCardsStore((state) => state.setCardData);
@@ -86,6 +88,7 @@ const PlayGame = () => {
 
             setRedOperatives(redOperative);
             setBlueOperatives(blueOperative);
+            calculateScores(data[0]['card'])
 
           } else if (response.status === 304) {
             // The server has not sent new data, reuse the previous state
@@ -95,6 +98,22 @@ const PlayGame = () => {
         const intervalId = setInterval(fetchGameState, 1000);
         return () => clearInterval(intervalId);
   });
+
+    function calculateScores(cardData) {
+        let blueScore = 0;
+        let redScore = 0;
+        cardData.forEach(card => {
+            if (card["is_revealed"]) {
+                if (card["color"] === "Red") {
+                    redScore = redScore + 1;
+                }
+                if (card["color"] === "Blue") {
+                    blueScore = blueScore + 1;
+                }
+            }
+        });
+        setScore({Blue: blueScore, Red: redScore});
+    }
 
     useEffect( () => {
         if (!jwtToken) {
@@ -256,9 +275,10 @@ const PlayGame = () => {
             addColorToCard(cardDetail.id, cardDetail.color);
             console.log(cardDetail);
        if (cardDetail && (cardDetail['color']) !== gameState[0]['me'][0]['team_color']) {
-            handleClueButton();
+            await handleClueButton();
+            toast("Wow so easy!");
        }
-      }
+    }
 
   function handleSpymasterInput(e) {
         setSpymasterClueInput(e.target.value);
@@ -440,6 +460,7 @@ const PlayGame = () => {
                 <div className="leftmost-container">
                     <div className="container-red">
                         <div>
+                            <h1 style={{ textAlign: "center", fontSize: "xxx-large", color: "white" }}>{gameScore["Red"]}</h1>
                             <p id="redscore">Score</p>
                         </div>
                         <div>
@@ -515,6 +536,7 @@ const PlayGame = () => {
                 <div className="rightmost-container">
                     <div className="container-blue">
                         <div>
+                            <h1 style={{ textAlign: "center", fontSize: "xxx-large", color: "white" }}>{gameScore["Blue"]}</h1>
                             <p id="bluescore">Score</p>
                         </div>
                         <div>
