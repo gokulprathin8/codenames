@@ -254,6 +254,10 @@ const PlayGame = () => {
 
        const cardDetail = await reveal_card(jwtToken, id, roomId);
             addColorToCard(cardDetail.id, cardDetail.color);
+            console.log(cardDetail);
+       if (cardDetail && (cardDetail['color']) !== gameState[0]['me'][0]['team_color']) {
+            handleClueButton();
+       }
       }
 
   function handleSpymasterInput(e) {
@@ -304,6 +308,7 @@ const PlayGame = () => {
         let team = gameState[0]['state'][0]['turn'];
         let gameId = gameState[0]['state'][0]['id'];
         await spymasterClue(spymasterClueInput, roomId, team, jwtToken, gameId);
+        setSpymasterClueInput("");
     }
 
     return (
@@ -467,10 +472,10 @@ const PlayGame = () => {
                     <div className="cards-container-5-by-5">
                         {cards.map((card, index) => (
                             <div
-                            key={index}
-                            className={`card${card.is_revealed || isSpy? " flipped" : ""}`}
-                            onClick={() => handleCardClick(card.sequence)}
-                        >
+                                key={index}
+                                className={`card${card.is_revealed || isSpy? " flipped" : ""}`}
+                                onClick={() => handleCardClick(card.sequence)}
+                            >
                             <div id={index.toString()} className="card-front">
                                 <div className="preflip-text">
                                     <p className="flip-text">{card && card['text'] ? card['text'] : 'Loading...'}</p>
