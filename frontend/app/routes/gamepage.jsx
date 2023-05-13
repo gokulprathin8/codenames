@@ -21,6 +21,7 @@ const GamePage = () => {
     const [roomName, setRoomName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [allRooms, setAllRooms] = useState([]);
+    const [playerStats, setPlayerStats] = useState([]);
 
 
     /**
@@ -85,7 +86,7 @@ const GamePage = () => {
     );
 
     function handleClick() {
-        // TODO: Implement the on click function
+        // dummy function: placeholder
     }
 
     function setRoomForJoin(room) {
@@ -154,7 +155,8 @@ const GamePage = () => {
 
                 userProfile(jwtToken).then(userDetails => {
                     setUserProfile(userDetails);
-                })
+                });
+
             }
 
     }, [jwtToken, navigate, setUserProfile]);
@@ -171,6 +173,25 @@ const GamePage = () => {
         return () => clearInterval(interval);
     });
 
+    useEffect(() => {
+        async function getPlayerStats(token) {
+            const stats = await fetch(`${SERVER_URL}game/win_loss_stats`, {
+                method: "GET",
+                headers: {Authorization: "Bearer " + jwtToken}
+            })
+            return stats.json();
+        }
+
+        if (playerStats.length === 0) {
+            getPlayerStats(jwtToken).then(resp =>
+            setPlayerStats(resp));
+        }
+
+        // const interval = setInterval(getPlayerStats, 3000);
+        // return () => clearInterval(interval);
+    }, [jwtToken, playerStats])
+
+    console.log(playerStats)
 
     return (
         <div>
@@ -381,6 +402,7 @@ const GamePage = () => {
                                          )) : <p style={{ marginTop: "50px" }}>Loading...</p>
                                     }
                                 </div>
+
                             </div>
                         </div>
                         <div className="new-room-div">
@@ -409,6 +431,7 @@ const GamePage = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div className="rightmost-container">
@@ -437,7 +460,28 @@ const GamePage = () => {
                     {/*<div className="bottom-box">*/}
                     {/*    <p className="chat-tittle">Game Log</p>*/}
                     {/*</div>*/}
+
+                    <div style={{ backgroundColor: "white", marginTop: "100%", borderRadius: "5px" }}>
+                        <h5 style={{ textAlign: "center", paddingTop: "5px" }}>Win / Loss Stats</h5>
+                        <div style={{ height: "400px", border: "1px solid black", overflow: "scroll" }}>
+
+                            {
+                                playerStats['stats'] && playerStats['stats'].map(stats => (
+                                    <div style={ stats['game_state'] ? { margin: "10px", border: "2px solid gray", borderRadius: "10px", backgroundColor: "greenyellow"} :  { margin: "10px", border: "2px solid gray", borderRadius: "10px", backgroundColor: "palevioletred"}}>
+                                        <div style={{paddingLeft: "10px"}}>
+                                            <h5>Room #{ stats['id'] }</h5>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+
+                        </div>
+
+                        <p>Win Rate: { playerStats['win_count'] / playerStats['total_count'] }</p>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     );

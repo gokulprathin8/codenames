@@ -232,3 +232,28 @@ async def save_winner_details(winner: RoomWinnerIn):
     room.is_active = False
     await room.update()
     return winner_resp
+
+
+@router.get("/win_loss_stats")
+async def win_loss_stats(token=Depends(oauth2_scheme)):
+    from copy import deepcopy
+
+    current_user = await User.objects.get(username=decode_access_token(token))
+    total_games = await Player.objects.filter(user=current_user.id).all()
+    room_win = await GameWinner.objects.all()
+
+    total_win_count = 0
+
+    stats = list()
+    for idx, game in enumerate(total_games):
+        stats.append(dict(game))
+        for win in room_win:
+            if game.room.id == win.room.id and game.team_color == win.winner:
+                stats[idx]['game_state'] = True
+                total_win_count = total_win_count + 1
+            else:
+                stats[idx]['game_state'] = False
+
+    return {'stats': stats, "win_count": total_win_count, "total_count": len(stats)}
+
+
