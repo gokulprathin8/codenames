@@ -461,7 +461,7 @@ const GamePage = () => {
                     {/*    <p className="chat-tittle">Game Log</p>*/}
                     {/*</div>*/}
 
-                    <div style={{ backgroundColor: "white", marginTop: "100%", borderRadius: "5px" }}>
+                    <div style={{ backgroundColor: "white", marginTop: "70%", borderRadius: "5px" }}>
                         <h5 style={{ textAlign: "center", paddingTop: "5px" }}>Win / Loss Stats</h5>
                         <div style={{ height: "400px", border: "1px solid black", overflow: "scroll" }}>
 
@@ -476,8 +476,9 @@ const GamePage = () => {
                             }
 
                         </div>
-
-                        <p>Win Rate: { playerStats['win_count'] / playerStats['total_count'] }</p>
+                        <p>Total Wins: <b>{playerStats['win_count']}</b></p>
+                        <p>Total Loss: <b>{playerStats['total_count'] - playerStats['win_count']}</b></p>
+                        <p>Win Rate: <b>{ playerStats['win_count'] / playerStats['total_count'] }</b></p>
                     </div>
 
                 </div>
