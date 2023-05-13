@@ -235,47 +235,6 @@ const PlayGame = () => {
         </Popup>
     );
 
-    /**
-     * ! the below code is to show a tooltip when clue button is clicked
-     */
-    const Cluetip = () => (
-        <Popup
-            trigger={(open) => <button className="btn-below">Clue No:{value}</button>}
-            position="bottom center"
-            closeOnDocumentClick
-        >
-            <div className="cluediv-popup-content">
-                <button className="clue-btn" onClick={handleClick}>
-                    1
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    2
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    3
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    4
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    5
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    6
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    7
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    8
-                </button>
-                <button className="clue-btn" onClick={handleClick}>
-                    9
-                </button>
-            </div>
-        </Popup>
-    );
-
     async function handleCardClick(id) {
         const updatedCards = cards.map((card) => {
           if (card.sequence === id && !card.is_revealed) {
@@ -584,7 +543,6 @@ const PlayGame = () => {
                                     placeholder=">>Give clue to your team"
                                     onChange={handleSpymasterInput}
                                 ></input>
-                                <Cluetip />
                                 <button className="btn-below" onClick={handleClueButton}>Give Clue</button>
                             </div> :
                         isItMyTurn ?
