@@ -361,7 +361,7 @@ const GamePage = () => {
                                 <div className="rooms-tittle">Game Rooms</div>
                                 <div className="rooms-scroll">
                                     {
-                                         allRooms.map((d) =>  (
+                                        allRooms && allRooms ? allRooms.map((d) =>  (
                                             <div key={d['share_uuid']}
                                                  className="room-tab" style={d['is_active'] ? { cursor: 'pointer' } : { cursor: 'pointer', backgroundColor: 'lightgreen' }}
                                                  onClick={() => d['is_active'] ? setRoomForJoin(d) : downloadReport(d)}
@@ -378,7 +378,7 @@ const GamePage = () => {
                                                     <h5>Game Room #{d['name']}</h5>
                                                 </div>
                                             </div>
-                                         ))
+                                         )) : <p style={{ marginTop: "50px" }}>Loading...</p>
                                     }
                                 </div>
                             </div>

@@ -37,6 +37,7 @@ const PlayGame = () => {
     const roomId = useRoomStore((state) => state.roomId);
     const userProfileData = useAuthStore((state) => state.userProfile);
 
+    let isItMyTurn;
     let spyMasterMove = false;
     let operativeMove = false;
     if (gameState && gameState[0]['me'].length) {
@@ -44,6 +45,20 @@ const PlayGame = () => {
                         (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn'])  // check if the correct team is playing
         operativeMove = (gameState && gameState[0]['me'][0]['operative']) && (gameState && gameState[0]['state'][0]['status'].split(" ")[1] === "OPERATIVE") && // check if spymaster is allowed to play
                         (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn'])  // check if the correct team is playing
+        let role;
+        let amIOperative = (gameState && gameState[0]['me'][0]['operative'])
+        if (amIOperative) {
+            role = "OPERATIVE";
+        } else {
+            role = "SPY";
+        }
+        let myColor = gameState[0]['me'][0]['team_color'];
+        let currentTurnColor = gameState[0]['state'][0]['turn'];
+        let currentType = gameState[0]['state'][0]['status'].split(" ")[1];
+
+        isItMyTurn =  (currentType === role) & (myColor === currentTurnColor);
+        console.log(isItMyTurn)
+
     }
 
   useEffect(() => {
@@ -537,7 +552,7 @@ const PlayGame = () => {
                 </div>
 
                 <div className="center">
-                    <div className="cards-container-5-by-5">
+                    <div className="cards-container-5-by-5" style={ isItMyTurn ? null : {cursor: "not-allowed", pointerEvents: "none"} }>
                         {cards.map((card, index) => (
                             <div
                                 key={index}
@@ -572,7 +587,7 @@ const PlayGame = () => {
                                 <Cluetip />
                                 <button className="btn-below" onClick={handleClueButton}>Give Clue</button>
                             </div> :
-                        operativeMove ?
+                        isItMyTurn ?
                                     <button onClick={handleClueButton}
                                     style={{ cursor: "pointer", color: "white",borderRadius: "20px",border: "1px solid white", padding: "15px",backgroundColor: "red", width: "inherit", textAlign: "center", fontSize: "medium"  }}>End Turn</button>
                         : null
