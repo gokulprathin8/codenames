@@ -39,11 +39,8 @@ const PlayGame = () => {
 
     let isItMyTurn;
     let spyMasterMove = false;
-    let operativeMove = false;
     if (gameState && gameState[0]['me'].length) {
         spyMasterMove = (gameState && gameState[0]['me'][0]['spymaster']) && (gameState && gameState[0]['state'][0]['status'].split(" ")[1] === "SPY") && // check if spymaster is allowed to play
-                        (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn'])  // check if the correct team is playing
-        operativeMove = (gameState && gameState[0]['me'][0]['operative']) && (gameState && gameState[0]['state'][0]['status'].split(" ")[1] === "OPERATIVE") && // check if spymaster is allowed to play
                         (gameState && gameState[0]['me'][0]['team_color']) && (gameState && gameState[0]['state'][0]['turn'])  // check if the correct team is playing
         let role;
         let amIOperative = (gameState && gameState[0]['me'][0]['operative'])
@@ -57,8 +54,6 @@ const PlayGame = () => {
         let currentType = gameState[0]['state'][0]['status'].split(" ")[1];
 
         isItMyTurn =  (currentType === role) & (myColor === currentTurnColor);
-        console.log(isItMyTurn)
-
     }
 
   useEffect(() => {
