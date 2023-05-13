@@ -300,28 +300,28 @@ const GamePage = () => {
 
             <div className="container">
                 <div className="leftmost-container">
-                    <div className="container-red">
-                        <div>
-                            <p id="redscore">Score</p>
-                        </div>
-                        <div>
-                            <img
-                                className="player-icon"
-                                src={playerImage}
-                                width={80}
-                                height={80}
-                                alt="player-icon-two"
-                            />
+                    {/*<div className="container-red">*/}
+                    {/*    <div>*/}
+                    {/*        <p id="redscore">Score</p>*/}
+                    {/*    </div>*/}
+                    {/*    <div>*/}
+                    {/*        <img*/}
+                    {/*            className="player-icon"*/}
+                    {/*            src={playerImage}*/}
+                    {/*            width={80}*/}
+                    {/*            height={80}*/}
+                    {/*            alt="player-icon-two"*/}
+                    {/*        />*/}
 
-                            <p className="operative-text">Current Operatives:</p>
+                    {/*        <p className="operative-text">Current Operatives:</p>*/}
 
-                            {/* add operative iteration code here */}
-                            <p className="operative-text">-</p>
-                        </div>
-                        <button className="red-button">Join as Operative</button>
-                        <br></br>
-                        <button className="red-button">Join as Spymaster</button>
-                    </div>
+                    {/*        /!* add operative iteration code here *!/*/}
+                    {/*        <p className="operative-text">-</p>*/}
+                    {/*    </div>*/}
+                    {/*    <button className="red-button">Join as Operative</button>*/}
+                    {/*    <br></br>*/}
+                    {/*    <button className="red-button">Join as Spymaster</button>*/}
+                    {/*</div>*/}
                 </div>
 
                 <div className="center">
@@ -412,31 +412,31 @@ const GamePage = () => {
                 </div>
 
                 <div className="rightmost-container">
-                    <div className="container-blue">
-                        <div>
-                            <p id="bluescore">Score</p>
-                        </div>
-                        <div>
-                            <img
-                                className="player-icon"
-                                src={playerImage}
-                                width={80}
-                                height={80}
-                                alt="player-icon-one"
-                            />
+                    {/*<div className="container-blue">*/}
+                    {/*    <div>*/}
+                    {/*        <p id="bluescore">Score</p>*/}
+                    {/*    </div>*/}
+                    {/*    <div>*/}
+                    {/*        <img*/}
+                    {/*            className="player-icon"*/}
+                    {/*            src={playerImage}*/}
+                    {/*            width={80}*/}
+                    {/*            height={80}*/}
+                    {/*            alt="player-icon-one"*/}
+                    {/*        />*/}
 
-                            <p className="operative-text">Current Operatives:</p>
+                    {/*        <p className="operative-text">Current Operatives:</p>*/}
 
-                            {/* add operative iteration code here */}
-                            <p className="operative-text">-</p>
-                        </div>
-                        <button className="blue-button">Join as Operative</button>
-                        <br></br>
-                        <button className="blue-button">Join as Spymaster</button>
-                    </div>
-                    <div className="bottom-box">
-                        <p className="chat-tittle">Game Log</p>
-                    </div>
+                    {/*        /!* add operative iteration code here *!/*/}
+                    {/*        <p className="operative-text">-</p>*/}
+                    {/*    </div>*/}
+                    {/*    <button className="blue-button">Join as Operative</button>*/}
+                    {/*    <br></br>*/}
+                    {/*    <button className="blue-button">Join as Spymaster</button>*/}
+                    {/*</div>*/}
+                    {/*<div className="bottom-box">*/}
+                    {/*    <p className="chat-tittle">Game Log</p>*/}
+                    {/*</div>*/}
                 </div>
             </div>
         </div>

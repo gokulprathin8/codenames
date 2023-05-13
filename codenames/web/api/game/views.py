@@ -222,8 +222,12 @@ async def view_audit(request: Request, room_id: int):
 
 @router.post("/winner_details")
 async def save_winner_details(winner: RoomWinnerIn):
-    return await GameWinner.objects.create(
+    winner = await GameWinner.objects.create(
         room=winner.room_id,
         game=winner.game_id,
         winner=winner.winner
     )
+    room = await Room.objects.get(winner.room_id)
+    room.is_active = False
+    room.update()
+    return winner
