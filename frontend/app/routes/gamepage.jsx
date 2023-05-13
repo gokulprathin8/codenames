@@ -94,7 +94,7 @@ const GamePage = () => {
     }
 
     function downloadReport(room) {
-        // TODO: implement
+        window.open(`https://localhost:8000/api/game/view_audit?room_id=${room['id']}&token=${jwtToken}`)
     }
 
     /**

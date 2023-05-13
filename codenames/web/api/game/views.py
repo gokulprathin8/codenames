@@ -13,7 +13,7 @@ from fastapi.templating import Jinja2Templates
 from codenames.db.models.game import (Game, GameStatus, Teams, Room, Cards, GameLog,
                                       Player, GameWinner)
 from codenames.db.models.user import User
-from codenames.web.api.auth.user import oauth2_scheme
+from codenames.web.api.auth.user import oauth2_scheme, get_token_from_query_param
 from codenames.web.api.game.base_types import (GameRoomBody, CreateLog, PlayerTypeIn,
                                                SpymasterResponse, RoomWinnerIn)
 from codenames.web.api.utils.auth import decode_access_token
@@ -207,13 +207,14 @@ async def show_cards_spymaster(
 
 
 @router.get("/view_audit", response_class=HTMLResponse)
-async def view_audit(request: Request, room_id: int):
-    game_logs = await GameLog.objects.select_related(['room', 'generated_by', 'game', 'card']).filter(
+async def view_audit(request: Request, room_id: int, token: str = Depends(
+    get_token_from_query_param)):
+    game_logs = await GameLog.objects.select_related(['room', 'generated_by', 'game',
+                                                      'card']).filter(
         room=room_id
     ).values(
         ['text', 'identifier', 'room', 'created_at', 'updated_at', 'game', 'card']
     )
-    print(game_logs, 'hh1')
     template_context = {"game_logs": game_logs, "request": request}
     html = templates.TemplateResponse("audit_log.html", template_context).body.decode(
         'utf-8')
