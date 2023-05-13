@@ -3,8 +3,8 @@ import {devtools, persist} from "zustand/middleware";
 import {create} from "zustand";
 import _ from "underscore";
 
-export async function reveal_card(user, index, roomId) {
-    const card = await fetch(`${SERVER_URL}game/reveal_card?room_id=${roomId}&index=${index}`, {
+export async function reveal_card(user, index, roomId, gameId) {
+    const card = await fetch(`${SERVER_URL}game/reveal_card?room_id=${roomId}&index=${index}&game_id=${gameId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

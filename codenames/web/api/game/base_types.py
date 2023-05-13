@@ -10,6 +10,7 @@ class GameRoomBody(BaseModel):
 class CreateLog(BaseModel):
     text: str
     game_id: int
+    room_id: int
 
 
 class PlayerTypeIn(BaseModel):

@@ -98,7 +98,8 @@ async def create_log(
         text=log_text.text,
         identifier=str(uuid.uuid4().hex),
         generated_by=current_user,
-        game=log_text.game_id
+        game=log_text.game_id,
+        room=log_text.room_id
     )
     return log
 
@@ -107,26 +108,26 @@ async def create_log(
 async def reveal_card(
     index: int,
     room_id: int,
+    game_id: int,
     response: Response,
     token=Depends(oauth2_scheme)
 ):
     current_user = await User.objects.get(username=decode_access_token(token))
-    # TODO: add user check, if user is in room
     card = await Cards.objects.get_or_none(sequence=index, room_name=room_id)
+    if card:
+        await GameLog(
+            text="",
+            identifier=str(uuid.uuid4().hex),
+            generated_by=current_user,
+            card=card.id,
+            game=game_id,
+            room=room_id
+        ).save()
     if card:
         card.is_revealed = True
         await card.update()
         return card
     response.status_code = status.HTTP_404_NOT_FOUND
-
-    # log gameplay
-    await GameLog(
-        text="",
-        identifier=str(uuid.uuid4().hex),
-        generated_by=current_user,
-        card=card.id
-    )
-
     return {'message': 'no matching card found'}
 
 
@@ -205,12 +206,13 @@ async def show_cards_spymaster(
 
 
 @router.get("/view_audit", response_class=HTMLResponse)
-async def download_audit(request: Request, game_id: int):
-    game_logs = await GameLog.objects.select_related(['game', 'generated_by']).filter(
-        game=game_id
+async def view_audit(request: Request, room_id: int):
+    game_logs = await GameLog.objects.select_related(['room', 'generated_by', 'game', 'card']).filter(
+        room=room_id
     ).values(
-        ['text', 'identifier', 'game', 'created_at', 'updated_at']
+        ['text', 'identifier', 'room', 'created_at', 'updated_at', 'game', 'card']
     )
+    print(game_logs, 'hh1')
     template_context = {"game_logs": game_logs, "request": request}
     html = templates.TemplateResponse("audit_log.html", template_context).body.decode(
         'utf-8')

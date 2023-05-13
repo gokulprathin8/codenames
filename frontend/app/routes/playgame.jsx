@@ -271,7 +271,7 @@ const PlayGame = () => {
         });
         setCards(updatedCards);
 
-       const cardDetail = await reveal_card(jwtToken, id, roomId);
+       const cardDetail = await reveal_card(jwtToken, id, roomId, gameState[0]['state'][0]['id']);
             addColorToCard(cardDetail.id, cardDetail.color);
             console.log(cardDetail);
        if (cardDetail && (cardDetail['color']) !== gameState[0]['me'][0]['team_color']) {
@@ -369,7 +369,7 @@ const PlayGame = () => {
                 gameScore && (gameScore['Red'] === 12 || gameScore['Blue'] === 12) ?
                 <div style={{ position: "absolute", zIndex: "10", backgroundColor: "white", width: "30%", height: "40%", top: "50%", left: "50%", transform: "translate(-50%, -50%)", borderRadius: "15px" }}>
                     <p style={{ textAlign: "center", paddingTop: "25%", fontSize: "xxx-large"}}> 🎉</p>
-                    <h1 style={{ textAlign: "center", fontSize: "xxx-large"}}>Team Blue Won!</h1>
+                    <h1 style={{ textAlign: "center", fontSize: "xxx-large"}}>Team {gameScore['Red'] === 12 ? "Red" : "Blue"} Won!</h1>
                     <div style={{  display: "flex", flexDirection: "row"}}>
                         <button onClick={handleGameWinner} style={{ marginTop: "30px", marginLeft: "45%", padding: "10px", border: "1px solid red", borderRadius: "10px", backgroundColor: "white", cursor: "pointer" }}>Close</button>
                     </div>

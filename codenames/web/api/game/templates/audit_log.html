@@ -20,7 +20,7 @@
         <table style="width:100%">
   <tr>
     <th>Game Id</th>
-    <th>Text</th>
+    <th>Clue - Text</th>
       <th>Identifier</th>
       <th>Created At</th>
       <th>Updated At</th>
@@ -29,6 +29,10 @@
       <th>Game Turn</th>
       <th>Game Host</th>
       <th>Game Created At</th>
+      <th>Card Room Number</th>
+      <th>Card Color</th>
+      <th>Card Sequence Count</th>
+      <th>Room Name</th>
   </tr>
   {% for log in game_logs %}
       <tr>
@@ -42,9 +46,15 @@
         <td>{{ log['game__turn'] }}</td>
           <td>{{ log['generated_by__username'] }}</td>
         <td>{{ log['game__created_at'] }}</td>
+          <td>{{ log['card__room_name'] }}</td>
+          <td>{{ log['card__color'] }}</td>
+          <td>{{ log['card__sequence'] }}</td>
+          <td>{{ log['room__name'] }}</td>
       </tr>
   {% endfor %}
 
 </table>
+
+        <hr>
     </body>
 </html>

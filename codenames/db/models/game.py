@@ -82,7 +82,7 @@ class Cards(ormar.Model):
         tablename = "cards"
 
     id: int = ormar.Integer(primary_key=True)
-    room_name: int = ormar.ForeignKey(Game, related_name="game_cards")
+    room_name: int = ormar.ForeignKey(Room, related_name="game_cards")
     color: str = ormar.String(
         choices=Teams,
         max_length=24
@@ -117,6 +117,7 @@ class GameLog(ormar.Model):
     text: str = ormar.String(max_length=2048)
     identifier: str = ormar.String(max_length=1024)
     generated_by: int = ormar.ForeignKey(User)
+    room: int = ormar.ForeignKey(Room)
 
     created_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now)
     updated_at: datetime.datetime = ormar.DateTime(default=datetime.datetime.now,
