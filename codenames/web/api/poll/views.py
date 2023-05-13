@@ -34,9 +34,15 @@ async def get_game_state(room_id: int,
         return Response(status_code=304)
 
     me = await Player.objects.select_related('user').filter(room=room_id,
-                                                      user=current_user.id,
-                                                      ).values(
+                                                            user=current_user.id,
+                                                            ).values(
         ['id', 'user__id', 'user__username', 'spymaster', 'operative', 'team_color']
+    )
+
+    in_game_log = await GameLog.objects.select_related('game').filter(text__isnull=False,
+                                               text__gte=1,
+                                               room=room_id).order_by('id').values(
+        'text', 'created_at', 'game__turn'
     )
 
     if not spymaster:
@@ -46,4 +52,5 @@ async def get_game_state(room_id: int,
                 del card['color']  # delete color for cards which are not revealed
 
     headers = {'ETag': etag}
-    return {'card': cards, 'players': players, 'state': state, 'me': me}, headers
+    return {'card': cards, 'players': players, 'state': state, 'me': me,
+            'log': in_game_log}, headers

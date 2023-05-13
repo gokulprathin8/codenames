@@ -180,7 +180,8 @@ async def get_response_from_spymaster(
         game=spymaster_resp.game_id,
         text=spymaster_resp.text,
         identifier=str(uuid.uuid4().hex),
-        generated_by=current_user.id
+        generated_by=current_user.id,
+        room=spymaster_resp.room_id
     ).save()
     last_game_action = await Game.objects.filter(room=spymaster_resp.room_id).order_by(
         "-id").limit(1).get()

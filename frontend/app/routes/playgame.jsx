@@ -24,6 +24,7 @@ const PlayGame = () => {
     const [redSpyMasterEmail, setRedSpyMasterEmail] = useState("");
     const [blueSpyMasterEmail, setBlueSpyMasterEmail] = useState("");
     const [gameScore, setScore] = useState({Red: 0, Blue: 0});
+    const [chatLog, setChatLog] = useState([]);
 
     const cards = useCardsStore((state) => state.cardData);
     const setCards = useCardsStore((state) => state.setCardData);
@@ -66,6 +67,7 @@ const PlayGame = () => {
             const data = await response.json();
             setGameState(data);
             setCards(data[0]['card']);
+            setChatLog(data[0]['log']);
 
             let blueOperative = [];
             let redOperative = [];
@@ -336,6 +338,7 @@ const PlayGame = () => {
     async function handleClueButton() {
         let team = gameState[0]['state'][0]['turn'];
         let gameId = gameState[0]['state'][0]['id'];
+        console.log(spymasterClueInput, roomId, team, jwtToken, gameId);
         await spymasterClue(spymasterClueInput, roomId, team, jwtToken, gameId);
         setSpymasterClueInput("");
     }
@@ -605,6 +608,20 @@ const PlayGame = () => {
                     </div>
                     <div className="bottom-box">
                         <p className="chat-tittle">Game Log</p>
+
+                        <div style={{ backgroundColor: "white", textAlign: "left",
+                            width: "100%", height: "100%", overflow: "scroll", paddingTop: "10px", paddingLeft: "10px"}}>
+                            {
+                                chatLog && chatLog.map(data => (
+                                    <div>
+                                        <p style={{ fontSize: "xx-small", padding: "5px" }}>
+                                            {data['game__turn']} Spymaster Clue: {data['text']}
+                                        </p>
+                                        <hr/>
+                                    </div>
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
