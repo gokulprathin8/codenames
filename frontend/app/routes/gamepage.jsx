@@ -89,7 +89,8 @@ const GamePage = () => {
     }
 
     function setRoomForJoin(room) {
-        console.log(room);
+        setRoomId(room['id']);
+        navigate('/playgame');
     }
 
     function downloadReport(room) {
@@ -133,14 +134,13 @@ const GamePage = () => {
             navigate('/auth/login');
         }
         else {
+            setIsLoading(true);
             createRoom(jwtToken, roomName).then(
                 (data) => {
                     setRoomId(data['room_id']);
                     navigate('/playgame');
                 }
             )
-            setIsLoading(true);
-            await createRoom(jwtToken, roomName);
             setIsLoading(false);
         }
 
