@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
-    "@emotion/react": "^11.10.6",
+    "@emotion/react": "^11.10.8",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.6",
     "@remix-run/node": "^1.15.0",
