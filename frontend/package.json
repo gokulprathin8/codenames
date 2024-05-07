@@ -28,7 +28,7 @@
     "simple-zustand-devtools": "^1.1.0",
     "styled-components": "^5.3.10",
     "underscore": "^1.13.6",
-    "zustand": "^4.3.7"
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.15.0",
